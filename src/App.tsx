@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
+import WorkPage from "./pages/WorkPage";
 import EDesign from "./pages/EDesign";
 import Shadwell from "./pages/Shadwell";
 import Submit from "./pages/Submit";
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/gallery/:id" element={<WorkPage />} />
           <Route path="/e-design" element={<EDesign />} />
           <Route path="/shadwell" element={<Shadwell />} />
           <Route path="/submit" element={<Submit />} />

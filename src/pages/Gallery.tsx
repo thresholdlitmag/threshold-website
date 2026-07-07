@@ -1,6 +1,13 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import PlaceholderImage from "../components/PlaceholderImage";
-import { EDITIONS, WORKS, WorkType } from "../data/works";
+import {
+  EDITIONS,
+  WORKS,
+  WorkType,
+  resolveImageUrl,
+  typeLabel,
+} from "../data/works";
 
 type Filter = WorkType | "all";
 
@@ -64,34 +71,36 @@ export default function Gallery() {
       <section className="gallery-grid">
         {works.map((work) => (
           <article className="work" key={work.id}>
-            {work.type === "art" ? (
-              work.imageUrl ? (
-                <figure className="figure">
-                  <img
-                    src={work.imageUrl}
-                    alt={`${work.title} — ${work.medium} by ${work.author}`}
-                    className="work__img"
-                  />
-                </figure>
+            <Link to={`/gallery/${work.id}`} className="work__link">
+              {work.type === "art" ? (
+                work.imageUrl ? (
+                  <figure className="figure">
+                    <img
+                      src={resolveImageUrl(work.imageUrl)}
+                      alt={`${work.title} — ${work.medium} by ${work.author}`}
+                      className="work__img"
+                    />
+                  </figure>
+                ) : (
+                  <PlaceholderImage ratio="4 / 3" framed />
+                )
               ) : (
-                <PlaceholderImage ratio="4 / 3" framed />
-              )
-            ) : (
-              <blockquote className="work__text">
-                {work.excerpt?.split(" / ").map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </blockquote>
-            )}
+                <blockquote className="work__text">
+                  {work.excerpt?.split(" / ").map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </blockquote>
+              )}
+            </Link>
             <div className="work__meta">
-              <h3>{work.title}</h3>
+              <h3>
+                <Link to={`/gallery/${work.id}`}>{work.title}</Link>
+              </h3>
               <p className="byline" style={{ marginBottom: 0 }}>
                 {work.author}
               </p>
               <p className="work__tags">
-                <span className="tag">
-                  {work.type === "art" ? work.medium ?? "Art" : work.type}
-                </span>
+                <span className="tag">{typeLabel(work)}</span>
                 <span className="tag tag--edition">{work.edition}</span>
               </p>
             </div>

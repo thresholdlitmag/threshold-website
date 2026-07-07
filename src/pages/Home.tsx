@@ -1,72 +1,84 @@
 import { Link } from "react-router-dom";
 import PlaceholderImage from "../components/PlaceholderImage";
-
-const LOREM_SHORT =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero.";
-
-const FEATURED = [
-  { title: "Lorem Ipsum Dolor", author: "Firstname Lastname", genre: "Poetry" },
-  { title: "Sed Ut Perspiciatis", author: "Firstname Lastname", genre: "Fiction" },
-  { title: "Nemo Enim Ipsam", author: "Firstname Lastname", genre: "Essay" },
-];
-
-const IN_THIS_ISSUE = [
-  { title: "At Vero Eos et Accusamus", genre: "Poetry" },
-  { title: "Temporibus Autem Quibusdam", genre: "Short Story" },
-  { title: "Itaque Earum Rerum", genre: "Visual Art" },
-  { title: "Nam Libero Tempore", genre: "Creative Nonfiction" },
-];
+import WorkText from "../components/WorkText";
+import {
+  featuredArtwork,
+  featuredWork,
+  highlightWorks,
+  latestEditionWorks,
+  resolveImageUrl,
+  typeLabel,
+} from "../data/works";
 
 export default function Home() {
+  const hero = featuredWork();
+  const artwork = featuredArtwork();
+  const inThisIssue = latestEditionWorks();
+  const highlights = highlightWorks();
+
   return (
     <div className="page container">
-      {/* -------- featured story hero -------- */}
+      {/* -------- featured work, straight from the gallery -------- */}
       <section className="hero">
         <article>
-          <span className="kicker">Featured &middot; From the Latest Issue</span>
+          <span className="kicker">Featured &middot; From {hero.edition}</span>
           <h2 className="hero__headline">
-            <Link to="/gallery">
-              Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit
-            </Link>
+            <Link to={`/gallery/${hero.id}`}>{hero.title}</Link>
           </h2>
-          <p className="byline">By Firstname Lastname &middot; Poetry</p>
-          <div className="two-col prose">
-            <p className="dropcap">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
-            </p>
-            <p>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum. Sed ut perspiciatis
-              unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-              veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            </p>
-            <p>
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-              aut fugit, sed quia consequuntur magni dolores eos qui ratione
-              voluptatem sequi nesciunt, neque porro quisquam est.
-            </p>
-          </div>
+          <p className="byline">
+            By {hero.author} &middot; {typeLabel(hero)}
+          </p>
+          {hero.fullText ? (
+            <div className="two-col">
+              <WorkText text={hero.fullText} type={hero.type} limit={3} dropcap />
+            </div>
+          ) : hero.imageUrl ? (
+            <img
+              className="work-page__img"
+              src={resolveImageUrl(hero.imageUrl)}
+              alt={`${hero.title} by ${hero.author}`}
+            />
+          ) : (
+            <PlaceholderImage ratio="16 / 10" framed />
+          )}
+          <p style={{ marginTop: "1.6rem" }}>
+            <Link className="btn btn--ghost" to={`/gallery/${hero.id}`}>
+              Read the Full Piece
+            </Link>
+          </p>
         </article>
 
         <aside className="sidebar">
-          <PlaceholderImage
-            ratio="4 / 5"
-            framed
-            caption="Featured artwork — title, artist, medium"
-          />
+          {artwork && (
+            <Link to={`/gallery/${artwork.id}`} className="sidebar__art">
+              {artwork.imageUrl ? (
+                <figure className="figure">
+                  <img
+                    className="work-page__img"
+                    src={resolveImageUrl(artwork.imageUrl)}
+                    alt={`${artwork.title} — ${artwork.medium} by ${artwork.author}`}
+                  />
+                  <figcaption>
+                    {artwork.title} &middot; {artwork.medium} &middot;{" "}
+                    {artwork.author}
+                  </figcaption>
+                </figure>
+              ) : (
+                <PlaceholderImage
+                  ratio="4 / 5"
+                  framed
+                  caption={`${artwork.title} · ${artwork.medium} · ${artwork.author}`}
+                />
+              )}
+            </Link>
+          )}
           <div className="sidebar__box">
             <h3>In This Issue</h3>
             <ul>
-              {IN_THIS_ISSUE.map((piece) => (
-                <li key={piece.title}>
-                  <Link to="/gallery">{piece.title}</Link>
-                  <em>{piece.genre}</em>
+              {inThisIssue.map((piece) => (
+                <li key={piece.id}>
+                  <Link to={`/gallery/${piece.id}`}>{piece.title}</Link>
+                  <em>{typeLabel(piece)}</em>
                 </li>
               ))}
             </ul>
@@ -124,22 +136,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* -------- recent highlights -------- */}
+      {/* -------- recent highlights, straight from the gallery -------- */}
       <div className="section-head">
         <h2>Recent Highlights</h2>
         <span>Selected by the editors</span>
       </div>
       <section className="grid-3">
-        {FEATURED.map((piece) => (
-          <article className="card" key={piece.title}>
-            <PlaceholderImage ratio="16 / 10" />
+        {highlights.map((piece) => (
+          <article className="card" key={piece.id}>
+            <Link to={`/gallery/${piece.id}`}>
+              {piece.type === "art" && piece.imageUrl ? (
+                <img
+                  className="work__img"
+                  src={resolveImageUrl(piece.imageUrl)}
+                  alt={`${piece.title} by ${piece.author}`}
+                />
+              ) : (
+                <PlaceholderImage ratio="16 / 10" />
+              )}
+            </Link>
             <h3>
-              <Link to="/gallery">{piece.title}</Link>
+              <Link to={`/gallery/${piece.id}`}>{piece.title}</Link>
             </h3>
             <p className="byline" style={{ marginBottom: "0.4rem" }}>
-              {piece.author} &middot; {piece.genre}
+              {piece.author} &middot; {typeLabel(piece)}
             </p>
-            <p>{LOREM_SHORT}</p>
+            {piece.excerpt && <p>{piece.excerpt.split(" / ").join(" ")}</p>}
           </article>
         ))}
       </section>
