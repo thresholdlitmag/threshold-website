@@ -3,19 +3,19 @@ import PlaceholderImage from "../components/PlaceholderImage";
 const GUIDELINES = [
   {
     title: "What to Send",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — up to 5 poems, prose to 3,000 words, or up to 5 pieces of visual art per submission.",
+    body: "Up to 5 poems, prose to 3,000 words, or up to 5 pieces of visual art per submission. Music and other creative work are welcome too.",
   },
   {
     title: "How to Format",
-    body: "Sed ut perspiciatis unde omnis iste natus error. Please send documents as .docx or .pdf and images as high-resolution .jpg or .png files.",
+    body: "Please send documents as .docx or .pdf and images as high-resolution .jpg or .png files.",
   },
   {
     title: "Where to Send It",
-    body: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur. Email your work to submissions@example.com with your name and genre in the subject line.",
+    body: "Email your work to thresholdlitmag@gmail.com with your name and genre in the subject line.",
   },
   {
     title: "What Happens Next",
-    body: "At vero eos et accusamus et iusto odio dignissimos. Our editors read every piece and respond within 4–6 weeks. Simultaneous submissions welcome.",
+    body: "Our editors read every piece anonymously and respond within a few weeks. Accepted work appears in the next edition of Threshold.",
   },
 ];
 
@@ -25,8 +25,7 @@ export default function Submit() {
       <span className="kicker">Submissions</span>
       <h1 className="page-title">Submit Your Work</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit — we want to
-        read what you have made.
+        Poetry, prose, art, or music — we want to see what you have made.
       </p>
 
       <hr className="rule-double" />
@@ -56,20 +55,20 @@ export default function Submit() {
             <h3>Reading Period</h3>
             <ul>
               <li>
-                <strong>Opens:</strong> Lorem ipsum (placeholder date)
+                <strong>Opens:</strong> To be announced
               </li>
               <li>
-                <strong>Closes:</strong> Dolor sit amet (placeholder date)
+                <strong>Closes:</strong> To be announced
               </li>
               <li>
-                <strong>Response time:</strong> 4–6 weeks
+                <strong>Response time:</strong> A few weeks
               </li>
               <li>
                 <strong>Fee:</strong> Free, always
               </li>
             </ul>
           </div>
-          <a className="btn" href="mailto:submissions@example.com">
+          <a className="btn" href="mailto:thresholdlitmag@gmail.com">
             Email Your Submission
           </a>
         </aside>

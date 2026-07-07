@@ -15,39 +15,39 @@ interface Tutorial {
 
 const TUTORIALS: Tutorial[] = [
   {
-    title: "Getting Started — Lorem Ipsum",
+    title: "Getting Started",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Creating your account and finding your way around the platform.",
+      "Creating your account and finding your way around the platform.",
     duration: "5 min",
   },
   {
     title: "Setting Up Your First Project",
     description:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem — starting a new design from a blank page or a template.",
+      "Starting a new design from a blank page or a template.",
     duration: "8 min",
   },
   {
     title: "Working With Text & Type",
     description:
-      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur — fonts, sizing, and laying out text like a magazine spread.",
+      "Fonts, sizing, and laying out text like a magazine spread.",
     duration: "6 min",
   },
   {
     title: "Adding & Editing Images",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos — uploading artwork, cropping, and placing images on the page.",
+      "Uploading artwork, cropping, and placing images on the page.",
     duration: "7 min",
   },
   {
     title: "Collaborating With the Team",
     description:
-      "Temporibus autem quibusdam et aut officiis debitis — sharing your work, leaving comments, and editing together.",
+      "Sharing your work, leaving comments, and editing together.",
     duration: "4 min",
   },
   {
     title: "Exporting & Publishing",
     description:
-      "Itaque earum rerum hic tenetur a sapiente delectus — turning your finished design into a print-ready or web-ready file.",
+      "Turning your finished design into a print-ready or web-ready file.",
     duration: "5 min",
   },
 ];
@@ -85,8 +85,7 @@ export default function EDesign() {
       <span className="kicker">Learn the Platform</span>
       <h1 className="page-title">E-Design</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — step-by-step video tutorials on using
-        our online design platform.
+        Step-by-step video tutorials on using our online design platform.
       </p>
 
       <hr className="rule-double" />

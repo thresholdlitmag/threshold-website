@@ -15,6 +15,8 @@ export default function Home() {
   const artwork = featuredArtwork();
   const inThisIssue = latestEditionWorks();
   const highlights = highlightWorks();
+  // Show the full piece if it's been added; otherwise preview the excerpt.
+  const heroText = hero.fullText ?? hero.excerpt?.split(" / ").join("\n");
 
   return (
     <div className="page container">
@@ -28,9 +30,9 @@ export default function Home() {
           <p className="byline">
             By {hero.author} &middot; {typeLabel(hero)}
           </p>
-          {hero.fullText ? (
+          {heroText ? (
             <div className="two-col">
-              <WorkText text={hero.fullText} type={hero.type} limit={3} dropcap />
+              <WorkText text={heroText} type={hero.type} limit={3} dropcap />
             </div>
           ) : hero.imageUrl ? (
             <img
@@ -93,20 +95,19 @@ export default function Home() {
         <div>
           <span className="kicker">Welcome to Threshold</span>
           <h2 className="page-title" style={{ fontSize: "2.2rem" }}>
-            Lorem ipsum dolor sit amet, consectetur
+            A forum for student work since 1986
           </h2>
           <div className="prose">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Bibendum est ultricies integer quis auctor elit sed vulputate mi
-              sit. Amet consectetur adipiscing elit duis tristique sollicitudin
-              nibh sit amet.
+              <i>Threshold</i> is a forum for student work. This magazine was
+              founded on the premise that all fields hold opportunities for
+              creative expression, and that we can find the essential human
+              creation in everything we create.
             </p>
             <p>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-              dolor in reprehenderit in voluptate velit esse cillum.
+              Each year, our student editors gather poetry, prose, art, and
+              music from across the school and shape them into a new edition —
+              now in our thirty-ninth volume.
             </p>
           </div>
           <p style={{ marginTop: "1.6rem" }}>
@@ -124,9 +125,9 @@ export default function Home() {
           <span className="kicker">Submissions Open</span>
           <h2>Send us your poetry, prose, and art</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-            id ligula porta felis euismod semper — we read every submission
-            with care.
+            Every edition of <i>Threshold</i> is built from student
+            submissions — we read every piece with care, and we'd love to
+            read yours.
           </p>
         </div>
         <div className="callout__action">

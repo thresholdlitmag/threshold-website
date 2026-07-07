@@ -11,7 +11,7 @@ const TEAM = [
   { name: "Reeanah Rahman", role: "Spotlight Director" },
 ];
 
-const LOREM_BIO = [
+const GRADES = [
   "Senior",
   "Junior",
   "Junior",
@@ -39,7 +39,7 @@ export default function Masthead() {
             <PlaceholderImage ratio="1" />
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
-            <p>{LOREM_BIO[index]}</p>
+            <p>{GRADES[index]}</p>
           </div>
         ))}
       </section>

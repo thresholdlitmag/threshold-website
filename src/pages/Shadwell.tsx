@@ -3,19 +3,19 @@ import PlaceholderImage from "../components/PlaceholderImage";
 const HOW_TO_ENTER = [
   {
     title: "Read the Theme",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — this edition's theme will be announced here, along with what we're looking for.",
+    body: "This edition's theme will be announced here, along with what the judges are looking for.",
   },
   {
     title: "Prepare Your Entry",
-    body: "Sed ut perspiciatis unde omnis iste natus error. One entry per person: a poem, a piece of prose, or a work of visual art responding to the theme.",
+    body: "One entry per person: a poem, a piece of prose, or a work of visual art responding to the theme.",
   },
   {
     title: "Submit Before the Deadline",
-    body: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur. Email your entry to shadwell@example.com with your name and category in the subject line.",
+    body: "Email your entry to thresholdlitmag@gmail.com with your name and category in the subject line.",
   },
   {
     title: "Judging & Results",
-    body: "At vero eos et accusamus et iusto odio dignissimos. Entries are judged anonymously by the editorial board; winners are published in the next edition.",
+    body: "Entries are judged anonymously by the editorial board; winners are published in the next edition of Threshold.",
   },
 ];
 
@@ -25,8 +25,7 @@ export default function Shadwell() {
       <span className="kicker">The Threshold Competition</span>
       <h1 className="page-title">Shadwell</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — our magazine competition, open to all
-        writers and artists.
+        Our magazine competition, open to all student writers and artists.
       </p>
 
       <hr className="rule-double" />
@@ -34,17 +33,16 @@ export default function Shadwell() {
       <section className="grid-2">
         <div className="prose">
           <p className="dropcap">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat — what the Shadwell
-            competition is, where its name comes from, and why we run it.
+            Shadwell is <i>Threshold</i>'s annual writing and art
+            competition. Each cycle we announce a theme, and students across
+            the school respond with poems, stories, and artwork — the
+            winning entries earn a featured place in the magazine.
           </p>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
+            The competition is judged anonymously by our editorial board, so
+            every entry is read on its own merits. The story of the
+            competition's name, and this year's theme, will be announced
+            here soon.
           </p>
         </div>
         <aside className="sidebar">
@@ -52,14 +50,13 @@ export default function Shadwell() {
             <h3>Key Dates</h3>
             <ul>
               <li>
-                <strong>Entries open:</strong> Lorem ipsum (placeholder date)
+                <strong>Entries open:</strong> To be announced
               </li>
               <li>
-                <strong>Deadline:</strong> Dolor sit amet (placeholder date)
+                <strong>Deadline:</strong> To be announced
               </li>
               <li>
-                <strong>Winners announced:</strong> Consectetur (placeholder
-                date)
+                <strong>Winners announced:</strong> To be announced
               </li>
               <li>
                 <strong>Entry fee:</strong> Free
@@ -70,12 +67,11 @@ export default function Shadwell() {
             <h3>Prizes</h3>
             <ul>
               <li>
-                <strong>First place:</strong> Lorem ipsum dolor — publication
-                and featured spread
+                <strong>First place:</strong> Publication with a featured
+                spread in the next edition
               </li>
               <li>
-                <strong>Runners-up:</strong> Sed ut perspiciatis — publication
-                in the next edition
+                <strong>Runners-up:</strong> Publication in the next edition
               </li>
             </ul>
           </div>
@@ -111,10 +107,9 @@ export default function Shadwell() {
             <p className="byline" style={{ margin: "0.8rem 0 0.2rem" }}>
               {place} &middot; Previous Edition
             </p>
-            <h3>Lorem Ipsum Dolor</h3>
+            <h3>To Be Announced</h3>
             <p>
-              Firstname Lastname — lorem ipsum dolor sit amet, consectetur
-              adipiscing elit.
+              Winning entries from past competitions will be showcased here.
             </p>
           </article>
         ))}
@@ -125,12 +120,11 @@ export default function Shadwell() {
           <span className="kicker">Ready?</span>
           <h2>Enter the Shadwell competition</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit — we
-            can't wait to read and see what you make.
+            We can't wait to read and see what you make.
           </p>
         </div>
         <div className="callout__action">
-          <a className="btn" href="mailto:shadwell@example.com">
+          <a className="btn" href="mailto:thresholdlitmag@gmail.com">
             Enter Now
           </a>
         </div>
