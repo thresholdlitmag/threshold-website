@@ -45,9 +45,8 @@ export default function Masthead() {
       </section>
 
       <blockquote className="pullquote">
-        “Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur.”
-        <cite>— The Threshold editors (placeholder)</cite>
+        “I am out with lanterns looking for myself.”
+        <cite>— Emily Dickinson</cite>
       </blockquote>
     </div>
   );
