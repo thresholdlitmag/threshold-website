@@ -13,7 +13,7 @@ export default function Contact() {
       <span className="kicker">Get in Touch</span>
       <h1 className="page-title">Contact</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — questions, ideas, or just want to say
+        Questions, ideas, or just want to say
         hello? Write to us.
       </p>
 
@@ -30,7 +30,7 @@ export default function Contact() {
             <input
               type="email"
               name="email"
-              placeholder="you@example.com"
+              placeholder="hello@gmail.com"
               required
             />
           </label>
@@ -39,7 +39,6 @@ export default function Contact() {
             <select name="subject" defaultValue="general">
               <option value="general">General inquiry</option>
               <option value="submissions">Submissions</option>
-              <option value="joining">Joining the team</option>
               <option value="other">Something else</option>
             </select>
           </label>
@@ -48,7 +47,7 @@ export default function Contact() {
             <textarea
               name="message"
               rows={6}
-              placeholder="Lorem ipsum dolor sit amet..."
+              placeholder="Salutations! My name is hello, and I was wondering whether I could say hi..."
               required
             />
           </label>
@@ -65,20 +64,20 @@ export default function Contact() {
             <h3>Elsewhere</h3>
             <ul>
               <li>
-                <a href="mailto:hello@example.com">hello@example.com</a>
-                <em>General inquiries</em>
-              </li>
-              <li>
-                <a href="mailto:submissions@example.com">
-                  submissions@example.com
-                </a>
-                <em>Submissions only</em>
+                <a href="mailto:thresholdlitmag@gmail.com ">thresholdlitmag@gmail.com </a>
+                <em>Email</em>
               </li>
               <li>
                 <a href="#" onClick={(e) => e.preventDefault()}>
-                  @threshold.magazine
+                  @threshlitmag
                 </a>
                 <em>Instagram</em>
+              </li>
+               <li>
+                <a href="#" onClick={(e) => e.preventDefault()}>
+                  7GV5-NS9W-SBDDC
+                </a>
+                <em>Schoology Group Code</em>
               </li>
             </ul>
           </div>
