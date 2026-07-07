@@ -27,15 +27,15 @@ export default function Layout() {
         <div className="container">
           <div className="topbar">
             <span>{todayLine()}</span>
-            <span>Vol. I &middot; Est. MMXXVI</span>
-            <span>Poetry &middot; Prose &middot; Visual Art</span>
+            <span>Vol. XXXIX &middot; Est. 1986</span>
+            <span>Poetry &middot; Prose &middot; Art &middot; Music</span>
           </div>
           <div className="masthead">
             <h1 className="masthead__title">
               <Link to="/">Threshold</Link>
             </h1>
             <p className="masthead__tagline">
-              A Literary &amp; Arts Magazine — where every ending is a doorway
+              A Literary &amp; Arts Magazine
             </p>
             <div className="masthead__ornament" aria-hidden="true">
               ❦
@@ -73,8 +73,8 @@ export default function Layout() {
             <div>
               <div className="footer__brand">Threshold</div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit — a
-                magazine of poetry, prose, and visual art.
+                <i>Threshold</i> is a forum for student work. This magazine was founded on the premise that all fields hold opportunities for creative expression 
+                and that we can find the essential human creation in everything we create. 
               </p>
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function Layout() {
               &copy; {new Date().getFullYear()} Threshold Literary &amp; Arts
               Magazine
             </span>
-            <span>All work belongs to its creators</span>
+            <span> </span>
           </div>
         </div>
       </footer>
