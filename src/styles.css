@@ -765,6 +765,92 @@ a {
   background: transparent;
 }
 
+.work__link {
+  text-decoration: none;
+  display: block;
+}
+
+.work__link:hover .work__text {
+  background: var(--lavender);
+}
+
+.work__meta h3 a {
+  text-decoration: none;
+}
+
+.work__meta h3 a:hover {
+  background: linear-gradient(transparent 78%, var(--lavender) 0);
+}
+
+/* ---------- individual work page ---------- */
+
+.work-page__top {
+  margin-bottom: 1.4rem;
+}
+
+.work-page__top .kicker {
+  text-decoration: none;
+}
+
+.work-page__top .kicker:hover {
+  color: var(--navy);
+}
+
+.work-page__header .page-title {
+  margin-bottom: 0.4rem;
+}
+
+.work-page__content {
+  max-width: 720px;
+  margin: 2.4rem auto 0;
+}
+
+.work-page__img {
+  width: 100%;
+  border: 1px solid var(--navy);
+  outline: 1px solid var(--navy);
+  outline-offset: 5px;
+}
+
+.poem {
+  font-size: 1.15rem;
+  line-height: 1.75;
+}
+
+.poem p + p {
+  margin-top: 1.3em;
+}
+
+.poem__line {
+  display: block;
+}
+
+.work-page__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--rule);
+  margin-top: 3.2rem;
+  padding-top: 1.1rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.work-page__nav a {
+  text-decoration: none;
+}
+
+.work-page__nav a:hover {
+  background: linear-gradient(transparent 78%, var(--lavender) 0);
+}
+
+.sidebar__art {
+  text-decoration: none;
+}
+
 /* ---------- e-design videos ---------- */
 
 .video-embed {
