@@ -96,7 +96,7 @@ export const WORKS: Work[] = [
     author: "Justin Yu",
     edition: "Issue XXXIX — Spring 2026",
     excerpt:
-      "When we first arrived in America, it was all over the news. “From Virginia Suburb, a Dissident Chinese Writer Continues His Mission,” reported <i>The New York Times</i>, along with a picture of my parents holding a three-year-old me. ",
+      "When we first arrived in America, it was all over the news. “From Virginia Suburb, a Dissident Chinese Writer Continues His Mission,” reported The New York Times, along with a picture of my parents holding a three-year-old me. ",
   },
   {
     id: "w8",
