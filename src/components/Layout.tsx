@@ -3,7 +3,9 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 const NAV_ITEMS = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/issues", label: "Issues" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/e-design", label: "E-Design" },
+  { to: "/shadwell", label: "Shadwell" },
   { to: "/submit", label: "Submit" },
   { to: "/masthead", label: "Masthead" },
   { to: "/contact", label: "Contact" },
