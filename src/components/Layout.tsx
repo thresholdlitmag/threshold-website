@@ -91,7 +91,7 @@ export default function Layout() {
               <h4>Connect</h4>
               <ul>
                 <li>
-                  <a href="mailto:hello@example.com">Email</a>
+                  <a href="mailto:thresholdlitmag@gmail.com">Email</a>
                 </li>
                 <li>
                   <a href="#" onClick={(e) => e.preventDefault()}>

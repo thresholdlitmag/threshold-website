@@ -37,8 +37,8 @@ export default function Gallery() {
       <span className="kicker">Writing &amp; Art from Our Pages</span>
       <h1 className="page-title">Gallery</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — every published work from every edition
-        of Threshold, in one collection.
+        Every published work from every edition of Threshold, in one
+        collection.
       </p>
 
       <hr className="rule-double" />

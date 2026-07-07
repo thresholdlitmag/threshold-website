@@ -64,6 +64,17 @@ export default function WorkPage() {
           )
         ) : work.fullText ? (
           <WorkText text={work.fullText} type={work.type} dropcap />
+        ) : work.excerpt ? (
+          <>
+            <WorkText
+              text={work.excerpt.split(" / ").join("\n")}
+              type={work.type}
+              dropcap={work.type === "prose"}
+            />
+            <p className="byline" style={{ marginTop: "2rem" }}>
+              Excerpt — full piece coming soon
+            </p>
+          </>
         ) : (
           <p className="lede">Full text coming soon.</p>
         )}

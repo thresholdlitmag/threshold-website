@@ -7,8 +7,8 @@ export default function About() {
       <span className="kicker">About the Magazine</span>
       <h1 className="page-title">Our Story</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt.
+        A student-run literary and arts magazine, publishing poetry, prose,
+        art, and music since 1986.
       </p>
 
       <hr className="rule-double" />
@@ -16,23 +16,20 @@ export default function About() {
       <section className="grid-2">
         <div className="prose">
           <p className="dropcap">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.
+            <i>Threshold</i> is a forum for student work. This magazine was
+            founded on the premise that all fields hold opportunities for
+            creative expression, and that we can find the essential human
+            creation in everything we create.
           </p>
           <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum. Sed ut perspiciatis
-            unde omnis iste natus error sit voluptatem accusantium doloremque
-            laudantium, totam rem aperiam.
+            Since 1986, our student editors have gathered poetry, prose,
+            visual art, and music from across the school and shaped them into
+            a new edition each year — thirty-nine volumes and counting.
           </p>
           <p>
-            Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-            beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-            voluptas sit aspernatur aut odit aut fugit.
+            A threshold is not a wall; it is an invitation to step through.
+            Every piece we publish is a doorway into someone else's way of
+            seeing, and we hope you'll linger in each one.
           </p>
         </div>
         <PlaceholderImage
@@ -55,15 +52,15 @@ export default function About() {
         {[
           {
             title: "Poetry",
-            body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Free verse, form, prose poems — nulla facilisi.",
+            body: "Free verse, formal verse, prose poems — if it sings, we want to read it.",
           },
           {
             title: "Prose",
-            body: "Sed ut perspiciatis unde omnis iste natus. Fiction, flash fiction, and creative nonfiction — accusantium doloremque.",
+            body: "Fiction, flash fiction, and creative nonfiction, from a single page to a full story.",
           },
           {
             title: "Visual Art",
-            body: "Nemo enim ipsam voluptatem quia voluptas. Photography, painting, drawing, digital art — sit aspernatur aut odit.",
+            body: "Photography, painting, drawing, and digital art from student artists in every medium.",
           },
         ].map((genre) => (
           <article className="card" key={genre.title}>
@@ -79,8 +76,8 @@ export default function About() {
           <span className="kicker">Join Us</span>
           <h2>Become part of the story</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit — whether
-            as a contributor or a reader, there is a place for you here.
+            Whether as a contributor, an editor, or a reader, there is a
+            place for you here.
           </p>
         </div>
         <div className="callout__action">
