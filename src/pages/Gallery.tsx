@@ -115,9 +115,8 @@ export default function Gallery() {
       )}
 
       <blockquote className="pullquote">
-        “Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-        suscipit laboriosam.”
-        <cite>— From the pages of Threshold (placeholder)</cite>
+        “Words mean things we didn't know we knew.”
+        <cite>— Wyn Cooper, <i>Mars Poetica</i></cite>
       </blockquote>
     </div>
   );

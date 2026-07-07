@@ -1,16 +1,26 @@
 import PlaceholderImage from "../components/PlaceholderImage";
 
 const TEAM = [
-  { name: "Firstname Lastname", role: "Editor-in-Chief" },
-  { name: "Firstname Lastname", role: "Managing Editor" },
-  { name: "Firstname Lastname", role: "Poetry Editor" },
-  { name: "Firstname Lastname", role: "Prose Editor" },
-  { name: "Firstname Lastname", role: "Art Director" },
-  { name: "Firstname Lastname", role: "Web & Design" },
+  { name: "Emma Wu", role: "Editor-in-Chief" },
+  { name: "Michelle Lin", role: "Operations Director" },
+  { name: "Elaine Zhang", role: "Communications Director" },
+  { name: "Audrey Na", role: "Technology Director" },
+  { name: "Yanling Lin", role: "Editorial Director" },
+  { name: "Maya John", role: "Visual Director" },
+  { name: "Anna Ching", role: "Shadwell Director" },
+  { name: "Reeanah Rahman", role: "Spotlight Director" },
 ];
 
-const LOREM_BIO =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
+const LOREM_BIO = [
+  "Senior",
+  "Junior",
+  "Junior",
+  "Junior",
+  "Junior",
+  "Senior",
+  "Junior",
+  "Senior",
+];
 
 export default function Masthead() {
   return (
@@ -18,8 +28,7 @@ export default function Masthead() {
       <span className="kicker">The People Behind the Pages</span>
       <h1 className="page-title">Masthead</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — meet the editors, readers, and designers
-        of Threshold.
+        Meet the directors of <i>Threshold</i>
       </p>
 
       <hr className="rule-double" />
@@ -30,15 +39,14 @@ export default function Masthead() {
             <PlaceholderImage ratio="1" />
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
-            <p>{LOREM_BIO}</p>
+            <p>{LOREM_BIO[index]}</p>
           </div>
         ))}
       </section>
 
       <blockquote className="pullquote">
-        “Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur.”
-        <cite>— The Threshold editors (placeholder)</cite>
+        “I am out with lanterns looking for myself.”
+        <cite>— Emily Dickinson</cite>
       </blockquote>
     </div>
   );

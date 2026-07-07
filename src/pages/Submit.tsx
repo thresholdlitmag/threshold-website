@@ -76,9 +76,8 @@ export default function Submit() {
       </section>
 
       <blockquote className="pullquote">
-        “Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-        suscipit laboriosam.”
-        <cite>— A note from the editors (placeholder)</cite>
+        “What would you write if you weren't afraid?”
+        <cite>— Mary Karr</cite>
       </blockquote>
     </div>
   );

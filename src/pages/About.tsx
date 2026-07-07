@@ -43,8 +43,8 @@ export default function About() {
       </section>
 
       <blockquote className="pullquote">
-        “A threshold is not a wall — it is an invitation to step through.”
-        <cite>— Our mission, in one line (placeholder)</cite>
+        “It’s not so much the contents of the song. It’s that the song was still being sung.”
+        <cite>— Anthony Doerr, <i>Cloud Cuckoo Land</i></cite>
       </blockquote>
 
       <div className="section-head">
