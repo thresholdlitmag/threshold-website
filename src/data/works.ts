@@ -83,7 +83,7 @@ export const WORKS: Work[] = [
       O’ great goddess Durga, you rid us of this plague
       That must have hatched from the most rotten egg
       You will get no mercy, not from her nor we
-      For all of the lives you slaughtered like innocent sheep`;
+      For all of the lives you slaughtered like innocent sheep`;,
   },
   {
     id: "w2",
@@ -153,7 +153,7 @@ export const WORKS: Work[] = [
       greatest gift ever given to her; certainly her life, intended to be spent in others’ wars, could not
       compare. The light of the oil lamps reflected off its surface, making it seem to glow. “Thank
       you,” she said. “I will treasure this.” The sculptor’s canny eyes began to angle upward—
-      And then, once again, she was gone.`
+      And then, once again, she was gone.`,
   },
   {
     id: "w3",
@@ -214,7 +214,7 @@ export const WORKS: Work[] = [
       reaching the clouds in the corner
       i realize the warmth
       that circled through this room
-      existed only because of you`
+      existed only because of you`,
   },
   {
     id: "w5",
@@ -263,7 +263,7 @@ export const WORKS: Work[] = [
       fleeing from 
       stars
       hells
-      and girls.`
+      and girls.`,
   },
   {
     id: "w6",
@@ -402,7 +402,7 @@ export const WORKS: Work[] = [
       The Shawshank Redemption has become not only a part of my parents’ lives, but a part of my own life as well. Andy’s 
       story has merged with the story of my family. It is a story of freedom. There is a quote from the book that goes 
       like this: “Some birds are not meant to be caged, that’s all. Their feathers are too bright, their songs too 
-      sweet and wild.” I now know that my father is such a free bird. And so, too, am I.`
+      sweet and wild.” I now know that my father is such a free bird. And so, too, am I.`,
   },
   {
     id: "w8",
