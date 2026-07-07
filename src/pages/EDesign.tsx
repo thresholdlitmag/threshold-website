@@ -102,9 +102,8 @@ export default function EDesign() {
       </section>
 
       <blockquote className="pullquote">
-        “Ut labore et dolore magnam aliquam quaerat voluptatem — design is
-        thinking made visible.”
-        <cite>— A note from the design team (placeholder)</cite>
+        “I hate Congress—I hate the army—I hate the world—I hate myself. The whole is a mass of fools and knaves; I could almost except you and Meade.”
+        <cite>— Alexander Hamilton</cite>
       </blockquote>
     </div>
   );
