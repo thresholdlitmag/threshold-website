@@ -12,15 +12,15 @@ const TEAM = [
 ];
 
 const LOREM_BIO = [
-  {"Senior"},
-  {"Junior"},
-  {"Junior"},
-  {"Junior"},
-  {"Junior"},
-  {"Senior"},
-  {"Junior"},
-  {"Senior"},
-]
+  "Senior",
+  "Junior",
+  "Junior",
+  "Junior",
+  "Junior",
+  "Senior",
+  "Junior",
+  "Senior",
+];
 
 export default function Masthead() {
   return (
@@ -39,7 +39,7 @@ export default function Masthead() {
             <PlaceholderImage ratio="1" />
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
-            <p>{LOREM_BIO}</p>
+            <p>{LOREM_BIO[index]}</p>
           </div>
         ))}
       </section>
