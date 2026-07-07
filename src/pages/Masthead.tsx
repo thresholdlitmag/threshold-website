@@ -1,12 +1,14 @@
 import PlaceholderImage from "../components/PlaceholderImage";
 
 const TEAM = [
-  { name: "Firstname Lastname", role: "Editor-in-Chief" },
-  { name: "Firstname Lastname", role: "Managing Editor" },
-  { name: "Firstname Lastname", role: "Poetry Editor" },
-  { name: "Firstname Lastname", role: "Prose Editor" },
-  { name: "Firstname Lastname", role: "Art Director" },
-  { name: "Firstname Lastname", role: "Web & Design" },
+  { name: "Emma Wu", role: "Editor-in-Chief" },
+  { name: "Michelle Lin", role: "Operations Director" },
+  { name: "Elaine Zhang", role: "Communications Director" },
+  { name: "Audrey Na", role: "Technology Director" },
+  { name: "Yanling Lin", role: "Editorial Director" },
+  { name: "Maya John", role: "Visual Director" },
+  { name: "Anna Ching", role: "Shadwell Director" },
+  { name: "Reeanah Rahman", role: "Spotlight Director" },
 ];
 
 const LOREM_BIO =
