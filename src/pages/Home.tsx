@@ -146,9 +146,8 @@ export default function Home() {
 
       {/* -------- pull quote -------- */}
       <blockquote className="pullquote">
-        “Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do
-        eiusmod tempor incididunt ut labore et dolore.”
-        <cite>— Firstname Lastname, Editor-in-Chief</cite>
+        “Let me live, love, and say it well in good sentences."
+        <cite>— Sylvia Plath</cite>
       </blockquote>
     </div>
   );
