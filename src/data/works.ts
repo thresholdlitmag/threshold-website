@@ -83,7 +83,7 @@ export const WORKS: Work[] = [
       O’ great goddess Durga, you rid us of this plague
       That must have hatched from the most rotten egg
       You will get no mercy, not from her nor we
-      For all of the lives you slaughtered like innocent sheep`;,
+      For all of the lives you slaughtered like innocent sheep`,
   },
   {
     id: "w2",
@@ -411,7 +411,8 @@ export const WORKS: Work[] = [
     medium: "Acrylic",
     author: "Olivia Kim",
     edition: "Issue XXXIX — Spring 2026",
-    imageUrl: "/art/thesea.jpg",
+    // Upload public/art/thesea.jpg, then restore this line:
+    // imageUrl: "/art/thesea.jpg",
   },
 ];
 
