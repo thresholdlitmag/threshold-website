@@ -37,29 +37,29 @@ export const EDITIONS = ["Issue I — Spring 2026"] as const;
 export const WORKS: Work[] = [
   {
     id: "w1",
-    title: "Lorem Ipsum Dolor",
+    title: "O’ Great Goddess Durga",
     type: "poetry",
-    author: "Firstname Lastname",
-    edition: "Issue I — Spring 2026",
+    author: "Bastion Price",
+    edition: "Issue XXXIX — Spring 2026",
     excerpt:
-      "Lorem ipsum dolor sit amet, / consectetur adipiscing elit — / sed do eiusmod tempor / incididunt ut labore, / et dolore magna aliqua.",
+      "The great goddess Durga, embodiment of power / An array of 16 arms, like petals of a flower / Each holding a weapon, of each there are only one / Grinning cheekily after a battle easily won",
   },
   {
     id: "w2",
-    title: "Sed Ut Perspiciatis",
+    title: "Abandoned",
     type: "prose",
-    author: "Firstname Lastname",
-    edition: "Issue I — Spring 2026",
+    author: "Cora Lin",
+    edition: "Issue XXXIX — Spring 2026",
     excerpt:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+      "Mahishasura flew at Durga, and Durga killed him; Brahma’s blessing left the demon immune to man, god, and beast, but he had left a loophole—a woman’s hand. Mahishasura was the reason for her birth, and now she was the reason for his death.",
   },
   {
     id: "w3",
-    title: "Nemo Enim Ipsam",
+    title: "Loving Feathers",
     type: "art",
-    medium: "Watercolor",
-    author: "Firstname Lastname",
-    edition: "Issue I — Spring 2026",
+    medium: "Acrylic",
+    author: "Kina Xu",
+    edition: "Issue XXXIX — Spring 2026",
     // imageUrl: "https://your-cloud-storage/link-to-artwork.jpg",
   },
   {
