@@ -25,7 +25,7 @@ export default function Home() {
         <article>
           <span className="kicker">Featured &middot; From the Latest Issue</span>
           <h2 className="hero__headline">
-            <Link to="/issues">
+            <Link to="/gallery">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit
             </Link>
           </h2>
@@ -65,7 +65,7 @@ export default function Home() {
             <ul>
               {IN_THIS_ISSUE.map((piece) => (
                 <li key={piece.title}>
-                  <Link to="/issues">{piece.title}</Link>
+                  <Link to="/gallery">{piece.title}</Link>
                   <em>{piece.genre}</em>
                 </li>
               ))}
@@ -134,7 +134,7 @@ export default function Home() {
           <article className="card" key={piece.title}>
             <PlaceholderImage ratio="16 / 10" />
             <h3>
-              <Link to="/issues">{piece.title}</Link>
+              <Link to="/gallery">{piece.title}</Link>
             </h3>
             <p className="byline" style={{ marginBottom: "0.4rem" }}>
               {piece.author} &middot; {piece.genre}
