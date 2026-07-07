@@ -11,8 +11,16 @@ const TEAM = [
   { name: "Reeanah Rahman", role: "Spotlight Director" },
 ];
 
-const LOREM_BIO =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.";
+const LOREM_BIO = [
+  {"Senior"},
+  {"Junior"},
+  {"Junior"},
+  {"Junior"},
+  {"Junior"},
+  {"Senior"},
+  {"Junior"},
+  {"Senior"},
+]
 
 export default function Masthead() {
   return (
@@ -20,8 +28,7 @@ export default function Masthead() {
       <span className="kicker">The People Behind the Pages</span>
       <h1 className="page-title">Masthead</h1>
       <p className="lede">
-        Lorem ipsum dolor sit amet — meet the editors, readers, and designers
-        of Threshold.
+        Meet the directors of <i>Threshold</i>
       </p>
 
       <hr className="rule-double" />
