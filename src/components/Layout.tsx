@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: "/gallery", label: "Gallery" },
   { to: "/e-design", label: "E-Design" },
   { to: "/shadwell", label: "Shadwell" },
+  { to: "/events", label: "Events" },
   { to: "/submit", label: "Submit" },
   { to: "/masthead", label: "Masthead" },
   { to: "/contact", label: "Contact" },
@@ -94,8 +95,21 @@ export default function Layout() {
                   <a href="mailto:thresholdlitmag@gmail.com">Email</a>
                 </li>
                 <li>
-                  <a href="#" onClick={(e) => e.preventDefault()}>
+                  <a
+                    href="https://www.instagram.com/threshlitmag"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.facebook.com/p/Threshold-Literary-and-Arts-Magazine-100049047613023/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Facebook
                   </a>
                 </li>
                 <li>
