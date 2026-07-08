@@ -12,7 +12,6 @@ const CALENDAR_SRC =
  */
 const INSTAGRAM_POSTS: string[] = [
   "https://www.instagram.com/p/DaA5R7rlcur", 
-  "https://www.instagram.com/p/DaGpQ2BFRkz",
 ];
 
 /** Turn a regular Instagram post link into its embeddable form. */
