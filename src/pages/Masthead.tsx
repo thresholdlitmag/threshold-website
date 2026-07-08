@@ -6,7 +6,7 @@ const TEAM = [
   { name: "Elaine Zhang", role: "Communications Director", grade: "Junior", image: "/pfp/ezhang.jpg" },
   { name: "Audrey Na", role: "Technology Director", grade: "Junior", image: "/pfp/ana.jpg" },
   { name: "Yanling Lin", role: "Editorial Director", grade: "Junior", image: "/pfp/ylin.jpg" },
-  { name: "Maya John", role: "Visual Director", grade: "Senior", image: "/pfp/mjohn.jpg"v },
+  { name: "Maya John", role: "Visual Director", grade: "Senior", image: "/pfp/mjohn.jpg" },
   { name: "Anna Ching", role: "Shadwell Director", grade: "Junior", image: "/pfp/aching.jpg" },
   { name: "Reeanah Rahman", role: "Spotlight Director", grade: "Senior", image: "/pfp/rrahman.jpg" },
 ];
