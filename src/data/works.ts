@@ -542,7 +542,7 @@ export const WORKS: Work[] = [
   {
     id: "w11",
     title: "six suitcases and three years",
-    type: poetry,
+    type: "poetry",
     author: "Audrey Na",
     edition: "Issue XXXIX — Spring 2026",
     excerpt: "three years ago, / when i’d visit you, / you’d tell me how beautiful i was, / how much i’d grown.",
@@ -675,7 +675,7 @@ export const WORKS: Work[] = [
   {
     id: "w13",
     title: "Life in a Blur",
-    type: art,
+    type: "art",
     medium: "Photography",
     author: "Kutay Baygin",
     edition: "Issue XXXIX — Spring 2026",
@@ -684,7 +684,7 @@ export const WORKS: Work[] = [
   {
     id: "w14",
     title: "Sidewalk Stories",
-    type: art,
+    type: "art",
     medium: "Mixed Media",
     author: "Kina Xu",
     edition: "Issue XXXIX — Spring 2026",
@@ -693,7 +693,7 @@ export const WORKS: Work[] = [
   {
     id: "w15",
     title: "Duality of a Dancer",
-    type: art,
+    type: "art",
     medium: "Acyrlic",
     author: "Kina Xu",
     edition: "Issue XXXIX — Spring 2026",
@@ -702,7 +702,7 @@ export const WORKS: Work[] = [
   {
     id: "w16",
     title: "4.11.14",
-    type: art,
+    type: "art",
     medium: "Acrylic",
     author: "Juliet Phillips",
     edition: "Issue XXXIX — Spring 2026",
