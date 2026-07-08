@@ -893,9 +893,11 @@ export interface HomeSelection {
  */
 export function homeSelection(): HomeSelection {
   const pool = shuffle(WORKS);
-  // Prefer a hero the visitor can actually read or see right away.
+  // The featured slot is always a writing piece (poetry/prose/spotlight),
+  // preferring one with text ready to show.
   const hero =
-    pool.find((work) => work.fullText || work.excerpt || work.imageUrl) ??
+    pool.find((work) => !isVisual(work) && (work.fullText || work.excerpt)) ??
+    pool.find((work) => !isVisual(work)) ??
     pool[0];
   const rest = pool.filter((work) => work.id !== hero.id);
   const artwork =

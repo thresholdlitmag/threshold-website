@@ -817,6 +817,15 @@ a {
   line-height: 1.75;
 }
 
+/* Poems keep their own shape — no newspaper paragraph indent.
+   (text-indent inherits, so without this every line of a stanza
+   inside .two-col/.prose contexts would get "tabbed".) */
+.poem p,
+.poem p + p,
+.poem .poem__line {
+  text-indent: 0;
+}
+
 .poem p + p {
   margin-top: 1.3em;
 }
