@@ -5,7 +5,9 @@ import {
   EDITIONS,
   WORKS,
   WorkType,
+  isVisual,
   resolveImageUrl,
+  shuffle,
   typeLabel,
 } from "../data/works";
 
@@ -16,20 +18,25 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: "poetry", label: "Poetry" },
   { value: "prose", label: "Prose" },
   { value: "art", label: "Art" },
+  { value: "music", label: "Music" },
+  { value: "spotlight", label: "Spotlight" },
 ];
 
 export default function Gallery() {
   const [filter, setFilter] = useState<Filter>("all");
   const [edition, setEdition] = useState<string>("all");
 
+  // A fresh random order each visit, stable while filtering.
+  const ordered = useMemo(() => shuffle(WORKS), []);
+
   const works = useMemo(
     () =>
-      WORKS.filter(
+      ordered.filter(
         (work) =>
           (filter === "all" || work.type === filter) &&
           (edition === "all" || work.edition === edition),
       ),
-    [filter, edition],
+    [ordered, filter, edition],
   );
 
   return (
@@ -72,12 +79,12 @@ export default function Gallery() {
         {works.map((work) => (
           <article className="work" key={work.id}>
             <Link to={`/gallery/${work.id}`} className="work__link">
-              {work.type === "art" ? (
+              {isVisual(work) ? (
                 work.imageUrl ? (
                   <figure className="figure">
                     <img
                       src={resolveImageUrl(work.imageUrl)}
-                      alt={`${work.title} — ${work.medium} by ${work.author}`}
+                      alt={`${work.title} — ${typeLabel(work)} by ${work.author}`}
                       className="work__img"
                     />
                   </figure>
