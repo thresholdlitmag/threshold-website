@@ -51,7 +51,6 @@ export const WORKS: Work[] = [
     type: "poetry",
     author: "Bastion Price",
     edition: "Issue XXXIX — Spring 2026",
-    featured: true,
     excerpt:
       "The great goddess Durga, embodiment of power / An array of 16 arms, like petals of a flower / Each holding a weapon, of each there are only one / Grinning cheekily after a battle easilly won",
     fullText: 
@@ -91,7 +90,6 @@ export const WORKS: Work[] = [
     type: "prose",
     author: "Cora Lin",
     edition: "Issue XXXIX — Spring 2026",
-    highlight: true,
     excerpt:
       "Mahishasura flew at Durga, and Durga killed him; Brahma’s blessing left the demon immune to man, god, and beast, but he had left a loophole—a woman’s hand. Mahishasura was the reason for her birth, and now she was the reason for his death.",
     fullText: 
@@ -222,7 +220,6 @@ export const WORKS: Work[] = [
     type: "poetry",
     author: "Kobimtochi Obi",
     edition: "Issue XXXIX — Spring 2026",
-    highlight: true,
     excerpt:
       "the serpent's fruit / didn't leave me with childbirth / but it did bless me with stubborn hands / that creep south / splaying around in all things Eve",
     fullText:
@@ -403,6 +400,7 @@ export const WORKS: Work[] = [
       story has merged with the story of my family. It is a story of freedom. There is a quote from the book that goes 
       like this: “Some birds are not meant to be caged, that’s all. Their feathers are too bright, their songs too 
       sweet and wild.” I now know that my father is such a free bird. And so, too, am I.`,
+      featured: true,
   },
   {
     id: "w8",
@@ -478,6 +476,7 @@ export const WORKS: Work[] = [
       of the front door. 
       
       *`,
+      highlight: true,
   },
   {
     id: "w10",
@@ -485,7 +484,7 @@ export const WORKS: Work[] = [
     type: "poetry",
     author: "Kobimtochi Obi",
     edition: "Issue XXXIX — Spring 2026",
-    excerpt:"“You are sitting on the hand of God. / Continue to play. / I know where I will find myself on Judgment Day.” / / my father says he has already decided my fate.",
+    excerpt:"“You are sitting on the hand of God. / Continue to play. / I know where I will find myself on Judgment Day.” / my father says he has already decided my fate.",
     fullText: 
       `“You are sitting on the hand of God.
         Continue to play.
@@ -716,6 +715,7 @@ export const WORKS: Work[] = [
     author: "Moubon Ray Kurukumbi",
     edition: "Issue XXXIX — Spring 2026",
     imageUrl: "/art/burned.jpg",
+    highlight: true,
   },
   {
     id: "w18",
@@ -768,7 +768,7 @@ export const WORKS: Work[] = [
     type: "poetry",
     author: "Kobimtochi Obi",
     edition: "Issue XXXIX — Spring 2026",
-    excerpt: "water laps up the sides of the bathtub / each wet curve on porcelain is a lizard’s tail / / i let it take me as i sink into the bath / i’m hoping to become something reptilian",
+    excerpt: "water laps up the sides of the bathtub / each wet curve on porcelain is a lizard’s tail / i let it take me as i sink into the bath / i’m hoping to become something reptilian",
     fullText: 
       `water laps up the sides of the bathtub
       each wet curve on porcelain is a lizard’s tail
