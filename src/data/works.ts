@@ -5,7 +5,9 @@
  * use in a real database table:
  *
  *   title     — name of the piece
- *   type      — "poetry" | "prose" | "art"
+ *   type      — "poetry" | "prose" | "art" | "music" | "spotlight"
+ *               (music displays like art — upload the sheet music as an
+ *               image; spotlight displays like prose)
  *   medium    — art only (e.g. Watercolor, Digital, Mixed Media, Acrylic)
  *   author    — the contributor's name
  *   edition   — which edition of Threshold it appeared in
@@ -18,13 +20,14 @@
  *                   referenced as "/art/filename.jpg"  (recommended), or
  *                 • a full https:// link to an image hosted elsewhere
  *                   (Imgur, Google Drive direct link, etc.)
- *   featured  — true on ONE work: it becomes the Home page hero
- *   highlight — true on works shown in Home's "Recent Highlights" row
+ * The Home page picks its featured work, highlights, and "In This
+ * Issue" list at random on every visit, and the Gallery shuffles its
+ * order — no flags needed.
  *
  * Every work automatically gets its own page at /gallery/<id>.
  */
 
-export type WorkType = "poetry" | "prose" | "art";
+export type WorkType = "poetry" | "prose" | "art" | "music" | "spotlight";
 
 export interface Work {
   id: string;
@@ -862,34 +865,58 @@ export function getWork(id: string): Work | undefined {
   return WORKS.find((work) => work.id === id);
 }
 
-/** The Home page hero — the work flagged `featured` (or the first work). */
-export function featuredWork(): Work {
-  return WORKS.find((work) => work.featured) ?? WORKS[0];
+/** Art and music display as images; poetry, prose, and spotlight as text. */
+export function isVisual(work: Work): boolean {
+  return work.type === "art" || work.type === "music";
 }
 
-/** Home "Recent Highlights" — works flagged `highlight` (max 3). */
-export function highlightWorks(): Work[] {
-  return WORKS.filter((work) => work.highlight).slice(0, 3);
+/** Fisher–Yates shuffle into a new array; the original is untouched. */
+export function shuffle<T>(items: readonly T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
 
-/** Home "In This Issue" sidebar — latest-edition works, minus the hero. */
-export function latestEditionWorks(limit = 4): Work[] {
-  const hero = featuredWork();
-  return WORKS.filter(
-    (work) => work.edition === LATEST_EDITION && work.id !== hero.id,
-  ).slice(0, limit);
+export interface HomeSelection {
+  hero: Work;
+  artwork?: Work;
+  highlights: Work[];
+  inThisIssue: Work[];
 }
 
-/** First artwork of the latest edition — Home's featured-artwork slot. */
-export function featuredArtwork(): Work | undefined {
-  return WORKS.find(
-    (work) => work.type === "art" && work.edition === LATEST_EDITION,
-  );
+/**
+ * Random picks for the Home page — a different feature, artwork,
+ * highlights row, and "In This Issue" list on every visit.
+ */
+export function homeSelection(): HomeSelection {
+  const pool = shuffle(WORKS);
+  // Prefer a hero the visitor can actually read or see right away.
+  const hero =
+    pool.find((work) => work.fullText || work.excerpt || work.imageUrl) ??
+    pool[0];
+  const rest = pool.filter((work) => work.id !== hero.id);
+  const artwork =
+    rest.find((work) => isVisual(work) && work.imageUrl) ??
+    rest.find(isVisual);
+  const remaining = rest.filter((work) => work.id !== artwork?.id);
+  return {
+    hero,
+    artwork,
+    highlights: remaining.slice(0, 3),
+    inThisIssue: remaining
+      .filter((work) => work.edition === LATEST_EDITION)
+      .slice(0, 4),
+  };
 }
 
-/** Card label for a work's type: medium for art, genre for writing. */
+/** Card label for a work's type: medium for art/music, genre otherwise. */
 export function typeLabel(work: Work): string {
-  return work.type === "art" ? work.medium ?? "Art" : work.type;
+  if (work.type === "art") return work.medium ?? "Art";
+  if (work.type === "music") return work.medium ?? "Music";
+  return work.type;
 }
 
 /**

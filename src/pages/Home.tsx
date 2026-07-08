@@ -1,20 +1,18 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import PlaceholderImage from "../components/PlaceholderImage";
 import WorkText from "../components/WorkText";
 import {
-  featuredArtwork,
-  featuredWork,
-  highlightWorks,
-  latestEditionWorks,
+  homeSelection,
+  isVisual,
   resolveImageUrl,
   typeLabel,
 } from "../data/works";
 
 export default function Home() {
-  const hero = featuredWork();
-  const artwork = featuredArtwork();
-  const inThisIssue = latestEditionWorks();
-  const highlights = highlightWorks();
+  // Random picks, fixed for this visit (useMemo keeps them stable
+  // across re-renders; a page refresh draws a new set).
+  const { hero, artwork, highlights, inThisIssue } = useMemo(homeSelection, []);
   // Show the full piece if it's been added; otherwise preview the excerpt.
   const heroText = hero.fullText ?? hero.excerpt?.split(" / ").join("\n");
 
@@ -145,15 +143,23 @@ export default function Home() {
       <section className="grid-3">
         {highlights.map((piece) => (
           <article className="card" key={piece.id}>
-            <Link to={`/gallery/${piece.id}`}>
-              {piece.type === "art" && piece.imageUrl ? (
-                <img
-                  className="work__img"
-                  src={resolveImageUrl(piece.imageUrl)}
-                  alt={`${piece.title} by ${piece.author}`}
-                />
+            <Link to={`/gallery/${piece.id}`} className="work__link">
+              {isVisual(piece) ? (
+                piece.imageUrl ? (
+                  <img
+                    className="work__img"
+                    src={resolveImageUrl(piece.imageUrl)}
+                    alt={`${piece.title} by ${piece.author}`}
+                  />
+                ) : (
+                  <PlaceholderImage ratio="16 / 10" />
+                )
               ) : (
-                <PlaceholderImage ratio="16 / 10" />
+                <blockquote className="work__text">
+                  {piece.excerpt?.split(" / ").map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </blockquote>
               )}
             </Link>
             <h3>
@@ -162,7 +168,6 @@ export default function Home() {
             <p className="byline" style={{ marginBottom: "0.4rem" }}>
               {piece.author} &middot; {typeLabel(piece)}
             </p>
-            {piece.excerpt && <p>{piece.excerpt.split(" / ").join(" ")}</p>}
           </article>
         ))}
       </section>

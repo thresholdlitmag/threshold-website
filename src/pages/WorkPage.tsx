@@ -1,7 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import PlaceholderImage from "../components/PlaceholderImage";
 import WorkText from "../components/WorkText";
-import { WORKS, getWork, resolveImageUrl, typeLabel } from "../data/works";
+import {
+  WORKS,
+  getWork,
+  isVisual,
+  resolveImageUrl,
+  typeLabel,
+} from "../data/works";
 
 export default function WorkPage() {
   const { id } = useParams<{ id: string }>();
@@ -43,16 +49,16 @@ export default function WorkPage() {
       <hr className="rule-double" style={{ marginTop: "0.6rem" }} />
 
       <div className="work-page__content">
-        {work.type === "art" ? (
+        {isVisual(work) ? (
           work.imageUrl ? (
             <figure className="figure">
               <img
                 className="work-page__img"
                 src={resolveImageUrl(work.imageUrl)}
-                alt={`${work.title} — ${work.medium} by ${work.author}`}
+                alt={`${work.title} — ${typeLabel(work)} by ${work.author}`}
               />
               <figcaption>
-                {work.title} &middot; {work.medium} &middot; {work.author}
+                {work.title} &middot; {typeLabel(work)} &middot; {work.author}
               </figcaption>
             </figure>
           ) : (
