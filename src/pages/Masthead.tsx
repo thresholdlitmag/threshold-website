@@ -1,25 +1,14 @@
 import PlaceholderImage from "../components/PlaceholderImage";
 
 const TEAM = [
-  { name: "Emma Wu", role: "Editor-in-Chief" },
-  { name: "Michelle Lin", role: "Operations Director" },
-  { name: "Elaine Zhang", role: "Communications Director" },
-  { name: "Audrey Na", role: "Technology Director" },
-  { name: "Yanling Lin", role: "Editorial Director" },
-  { name: "Maya John", role: "Visual Director" },
-  { name: "Anna Ching", role: "Shadwell Director" },
-  { name: "Reeanah Rahman", role: "Spotlight Director" },
-];
-
-const GRADES = [
-  "Senior",
-  "Junior",
-  "Junior",
-  "Junior",
-  "Junior",
-  "Senior",
-  "Junior",
-  "Senior",
+  { name: "Emma Wu", role: "Editor-in-Chief", grade: "Senior", image: "/pfp/ewu.jpg" },
+  { name: "Michelle Lin", role: "Operations Director", grade: "Junior", image: "/pfp/mlin.jpg" },
+  { name: "Elaine Zhang", role: "Communications Director", grade: "Junior", image: "/pfp/ezhang.jpg" },
+  { name: "Audrey Na", role: "Technology Director", grade: "Junior", image: "/pfp/ana.jpg" },
+  { name: "Yanling Lin", role: "Editorial Director", grade: "Junior", image: "/pfp/ylin.jpg" },
+  { name: "Maya John", role: "Visual Director", grade: "Senior", image: "/pfp/mjohn.jpg"v },
+  { name: "Anna Ching", role: "Shadwell Director", grade: "Junior", image: "/pfp/aching.jpg" },
+  { name: "Reeanah Rahman", role: "Spotlight Director", grade: "Senior", image: "/pfp/rrahman.jpg" },
 ];
 
 export default function Masthead() {
@@ -36,10 +25,10 @@ export default function Masthead() {
       <section className="team-grid">
         {TEAM.map((member, index) => (
           <div className="member" key={`${member.role}-${index}`}>
-            <PlaceholderImage ratio="1" />
+            <img ratio="1">{member.image}</img>
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
-            <p>{GRADES[index]}</p>
+            <p>{member.grade}</p>
           </div>
         ))}
       </section>
