@@ -1,4 +1,5 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home" },
@@ -22,6 +23,22 @@ function todayLine(): string {
 }
 
 export default function Layout() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Close the drawer on navigation and keep the page from scrolling
+  // behind it while it's open.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
     <>
       <header>
@@ -44,7 +61,20 @@ export default function Layout() {
           </div>
         </div>
         <nav className="nav" aria-label="Primary">
-          <div className="container">
+          <div className="container nav__bar">
+            <button
+              className="nav__toggle"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            <span className="nav__mobile-label" aria-hidden="true">
+              Menu
+            </span>
             <ul className="nav__list">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}>
@@ -63,6 +93,45 @@ export default function Layout() {
           </div>
         </nav>
       </header>
+
+      {menuOpen && (
+        <div
+          className="nav-backdrop"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        className={`drawer ${menuOpen ? "drawer--open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <div className="drawer__head">
+          <span className="drawer__brand">Threshold</span>
+          <button
+            className="drawer__close"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          >
+            &times;
+          </button>
+        </div>
+        <ul className="drawer__list">
+          {NAV_ITEMS.map((item) => (
+            <li key={item.to}>
+              <NavLink
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) =>
+                  `drawer__link ${isActive ? "drawer__link--active" : ""}`
+                }
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </aside>
 
       <main>
         <Outlet />
