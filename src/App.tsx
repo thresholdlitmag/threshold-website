@@ -6,6 +6,7 @@ import Gallery from "./pages/Gallery";
 import WorkPage from "./pages/WorkPage";
 import EDesign from "./pages/EDesign";
 import Shadwell from "./pages/Shadwell";
+import Events from "./pages/Events";
 import Submit from "./pages/Submit";
 import Masthead from "./pages/Masthead";
 import Contact from "./pages/Contact";
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/gallery/:id" element={<WorkPage />} />
           <Route path="/e-design" element={<EDesign />} />
           <Route path="/shadwell" element={<Shadwell />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/submit" element={<Submit />} />
           <Route path="/masthead" element={<Masthead />} />
           <Route path="/contact" element={<Contact />} />

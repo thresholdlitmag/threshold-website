@@ -68,10 +68,24 @@ export default function Contact() {
                 <em>Email</em>
               </li>
               <li>
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <a
+                  href="https://www.instagram.com/threshlitmag"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   @threshlitmag
                 </a>
                 <em>Instagram</em>
+              </li>
+              <li>
+                <a
+                  href="https://www.facebook.com/p/Threshold-Literary-and-Arts-Magazine-100049047613023/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Threshold Literary and Arts Magazine
+                </a>
+                <em>Facebook</em>
               </li>
                <li>
                 <a href="#" onClick={(e) => e.preventDefault()}>
