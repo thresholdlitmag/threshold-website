@@ -1,7 +1,7 @@
-import PlaceholderImage from "../components/PlaceholderImage";
+import { resolveImageUrl } from "../data/works";
 
 const TEAM = [
-  { name: "Emma Wu", role: "Editor-in-Chief", grade: "Senior", image: "/pfp/ewu.jpg" },
+  { name: "Emma Wu", role: "Editor-in-Chief", grade: "Senior", image: "/pfp/ewu.jpeg" },
   { name: "Michelle Lin", role: "Operations Director", grade: "Junior", image: "/pfp/mlin.jpg" },
   { name: "Elaine Zhang", role: "Communications Director", grade: "Junior", image: "/pfp/ezhang.jpg" },
   { name: "Audrey Na", role: "Technology Director", grade: "Junior", image: "/pfp/ana.jpg" },
@@ -23,9 +23,13 @@ export default function Masthead() {
       <hr className="rule-double" />
 
       <section className="team-grid">
-        {TEAM.map((member, index) => (
-          <div className="member" key={`${member.role}-${index}`}>
-            <img ratio="1">{member.image}</img>
+        {TEAM.map((member) => (
+          <div className="member" key={member.name}>
+            <img
+              className="member__photo"
+              src={resolveImageUrl(member.image)}
+              alt={member.name}
+            />
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
             <p>{member.grade}</p>
