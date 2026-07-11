@@ -52,15 +52,15 @@ export default function About() {
         {[
           {
             title: "Poetry",
-            body: "Free verse, formal verse, prose poems — if it sings, we want to read it.",
+            body: "Any and all forms of poetry",
           },
           {
             title: "Prose",
-            body: "Fiction, flash fiction, and creative nonfiction, from a single page to a full story.",
+            body: "Short stories, flash fiction, memoir, etc.",
           },
           {
-            title: "Visual Art",
-            body: "Photography, painting, drawing, and digital art from student artists in every medium.",
+            title: "Art",
+            body: "Photography, painting, drawing, digital art, music, mixed media.",
           },
         ].map((genre) => (
           <article className="card" key={genre.title}>
