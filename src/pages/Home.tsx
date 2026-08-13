@@ -97,10 +97,9 @@ export default function Home() {
           </h2>
           <div className="prose">
             <p>
-              <i>Threshold</i> is a forum for student work. This magazine was
-              founded on the premise that all fields hold opportunities for
-              creative expression, and that we can find the essential human
-              creation in everything we create.
+              <i>Threshold</i> is Thomas Jefferson High School's literary and arts magazine. 
+              This year our theme is [Theme], and we meet Wednesday 8B and Friday 8A in Mrs. 
+              Procelli's room, Room XX. Come join us, we are always looking for new members! 
             </p>
             <p>
               Each year, our student editors gather poetry, prose, art, and
