@@ -1,3 +1,4 @@
+import FadeInImage from "./FadeInImage";
 import { Work, resolveImageUrl, typeLabel } from "../data/works";
 
 interface WorkVisualProps {
@@ -32,11 +33,12 @@ export default function WorkVisual({
   }
 
   const img = (
-    <img
+    <FadeInImage
       className={`work__img ${className}`.trim()}
       src={resolveImageUrl(work.imageUrl)}
       alt={`${work.title} — ${typeLabel(work)} by ${work.author}`}
       loading="lazy"
+      decoding="async"
     />
   );
 

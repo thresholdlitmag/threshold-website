@@ -28,7 +28,9 @@ export default function Shadwell() {
         </p>
       </section>
 
-      <section className="callout callout--center">
+      {/* Text left, button right — the same two-column call-out the Home
+          page uses for submissions. */}
+      <section className="callout">
         <div>
           <span className="kicker">Ready?</span>
           <h2>Enter the Shadwell competition</h2>

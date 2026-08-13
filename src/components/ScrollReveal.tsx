@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
@@ -42,11 +42,35 @@ const TARGETS = [
 
 const REVEALED = "reveal--in";
 const PENDING = "reveal";
+/**
+ * Left on for good once an element has arrived.
+ *
+ * `reveal--in` is stripped after the animation lands (see below), so it
+ * can't be used to style the settled state. Anything that should stay
+ * changed once a piece is on screen — the marker stroke under a section
+ * head, the quote mark behind a pull quote — hangs off this instead.
+ */
+const DONE = "is-revealed";
 /** Must outlast the reveal animation plus its longest stagger delay. */
 const SETTLE_MS = 1100;
 
+/**
+ * Fire this on `window` after swapping the contents of the page without
+ * navigating — filtering the gallery, say — and the new elements get the
+ * same treatment as a fresh page.
+ */
+export const REVEAL_REFRESH_EVENT = "threshold:reveal-refresh";
+
 export default function ScrollReveal() {
   const { pathname } = useLocation();
+  // Bumped by the refresh event to re-run the effect below.
+  const [signal, setSignal] = useState(0);
+
+  useEffect(() => {
+    const bump = () => setSignal((n) => n + 1);
+    window.addEventListener(REVEAL_REFRESH_EVENT, bump);
+    return () => window.removeEventListener(REVEAL_REFRESH_EVENT, bump);
+  }, []);
 
   useLayoutEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -57,6 +81,10 @@ export default function ScrollReveal() {
     if (elements.length === 0) return;
 
     elements.forEach((el) => {
+      // Anything already settled — a section the reader has scrolled
+      // past before the gallery was re-filtered — is left alone rather
+      // than being faded out and brought back in.
+      if (el.classList.contains(DONE)) return;
       el.classList.add(PENDING);
       // A short stagger by position among siblings, so a row of cards
       // arrives one after another instead of all at once.
@@ -69,10 +97,11 @@ export default function ScrollReveal() {
     const timers: number[] = [];
 
     function reveal(el: Element) {
-      el.classList.add(REVEALED);
-      // Drop both classes once it has landed. Leaving the animation in
-      // place with fill-mode: both would pin the element's transform and
-      // stop :hover from ever moving it again.
+      el.classList.add(REVEALED, DONE);
+      // Drop the two animation classes once it has landed. Leaving the
+      // animation in place with fill-mode: both would pin the element's
+      // transform and stop :hover from ever moving it again. DONE stays
+      // on — it carries no transform, only settled-state styling.
       timers.push(
         window.setTimeout(
           () => el.classList.remove(PENDING, REVEALED),
@@ -116,7 +145,9 @@ export default function ScrollReveal() {
         el.style.removeProperty("--reveal-delay");
       });
     };
-  }, [pathname]);
+    // `signal` re-runs the sweep when the page swaps its contents
+    // without navigating.
+  }, [pathname, signal]);
 
   return null;
 }

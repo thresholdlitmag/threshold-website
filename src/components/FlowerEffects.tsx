@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Botanical, { BotanicalKind, BOTANICAL_COLORS } from "./Botanical";
+import Botanical, { BotanicalKind } from "./Botanical";
 import { PETAL_EVENT } from "../lib/petals";
 
 /**
@@ -22,7 +22,6 @@ interface Bloom {
   x: number;
   y: number;
   kind: BotanicalKind;
-  color: string;
   size: number;
   rotate: number;
 }
@@ -34,7 +33,6 @@ interface Spark {
   dx: number;
   dy: number;
   spin: number;
-  color: string;
   size: number;
 }
 
@@ -48,7 +46,6 @@ interface Petal {
   swayAmp: number;
   spin: number;
   tumble: number;
-  color: string;
   size: number;
   opacity: number;
   /** Background drift, as opposed to a celebration shower. */
@@ -97,7 +94,6 @@ function makePetal(ambient: boolean): Petal {
     swayAmp: range(18, 62),
     spin: range(2200, 4200),
     tumble: range(1500, 3000),
-    color: pick(BOTANICAL_COLORS),
     size: ambient ? range(15, 26) : range(15, 30),
     opacity: ambient ? range(0.28, 0.46) : range(0.75, 1),
     ambient,
@@ -146,7 +142,6 @@ export default function FlowerEffects() {
         x,
         y,
         kind: pick(["flower", "daisy", "flower"] as BotanicalKind[]),
-        color: pick(BOTANICAL_COLORS),
         size: range(22, 32),
         rotate: range(-40, 40),
       };
@@ -168,7 +163,6 @@ export default function FlowerEffects() {
           dx: Math.cos(angle) * distance,
           dy: Math.sin(angle) * distance - 14,
           spin: range(-220, 220),
-          color: pick(BOTANICAL_COLORS),
           size: range(10, 16),
         };
       });
@@ -252,7 +246,7 @@ export default function FlowerEffects() {
             ["--bloom-ms" as string]: `${BLOOM_MS}ms`,
           }}
         >
-          <Botanical kind={bloom.kind} color={bloom.color} size={bloom.size} />
+          <Botanical kind={bloom.kind} size={bloom.size} />
         </span>
       ))}
 
@@ -269,7 +263,7 @@ export default function FlowerEffects() {
             ["--spark-ms" as string]: `${SPARK_MS}ms`,
           }}
         >
-          <Botanical kind="petal" color={spark.color} size={spark.size} />
+          <Botanical kind="petal" size={spark.size} />
         </span>
       ))}
 
@@ -300,7 +294,6 @@ export default function FlowerEffects() {
             >
               <Botanical
                 kind={petal.kind}
-                color={petal.color}
                 size={petal.size}
               />
             </span>

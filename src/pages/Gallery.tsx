@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { REVEAL_REFRESH_EVENT } from "../components/ScrollReveal";
 import WorkVisual from "../components/WorkVisual";
 import {
   VOLUMES,
@@ -38,6 +39,22 @@ export default function Gallery() {
     [ordered, filter, volume],
   );
 
+  // A change of filter swaps the whole grid without navigating, so the
+  // reveal pass has to be told to look again — otherwise the incoming
+  // pieces simply blink into place while the rest of the site settles.
+  //
+  // Skipped on mount: the reveal pass has just run for this page anyway,
+  // and interrupting it there would cut short the animation already
+  // playing on the first screenful of work.
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    window.dispatchEvent(new Event(REVEAL_REFRESH_EVENT));
+  }, [filter, volume]);
+
   return (
     <div className="page container">
       <span className="kicker">Writing &amp; Art from Our Pages</span>
@@ -54,6 +71,10 @@ export default function Gallery() {
           {FILTERS.map((f) => (
             <button
               key={f.value}
+              type="button"
+              // A filter chip is a toggle, not a link — aria-pressed is
+              // what tells assistive tech which one is currently on.
+              aria-pressed={filter === f.value}
               className={`chip ${filter === f.value ? "chip--active" : ""}`}
               onClick={() => setFilter(f.value)}
             >
@@ -73,6 +94,17 @@ export default function Gallery() {
           </select>
         </label>
       </div>
+
+      {/*
+        What the filters actually did. aria-live means a screen reader
+        hears the new count when the chips change, rather than being left
+        to discover the grid has quietly rearranged itself.
+      */}
+      <p className="result-count" aria-live="polite">
+        {works.length} {works.length === 1 ? "piece" : "pieces"}
+        {filter === "all" ? "" : ` in ${FILTERS.find((f) => f.value === filter)?.label.toLowerCase()}`}
+        {volume === "all" ? "" : ` from ${volume}`}
+      </p>
 
       {/*
         Masonry: the grid flows down CSS columns instead of across fixed
@@ -110,9 +142,21 @@ export default function Gallery() {
       </section>
 
       {works.length === 0 && (
-        <p className="lede" style={{ margin: "3rem auto", textAlign: "center" }}>
-          Nothing here yet — check back soon.
-        </p>
+        <div className="empty-state">
+          <p className="lede">
+            Nothing in this corner of the archive yet.
+          </p>
+          <button
+            type="button"
+            className="btn btn--ghost"
+            onClick={() => {
+              setFilter("all");
+              setVolume("all");
+            }}
+          >
+            Show Every Piece
+          </button>
+        </div>
       )}
 
       <blockquote className="pullquote">

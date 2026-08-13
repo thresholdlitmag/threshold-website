@@ -28,6 +28,58 @@
      strips start competing with the work they're holding down. */
   --tape: rgba(210, 213, 243, 0.32);
   --tape-edge: rgba(18, 20, 52, 0.09);
+
+  /*
+    ── ink scale ──────────────────────────────────────────────────────
+    One navy, at four weights. Before this the file reached for
+    rgba(18, 20, 52, …) inline at a dozen different alphas, so two things
+    meant to match rarely did. Naming the steps is what makes a rule read
+    as deliberate rather than as whatever looked right that afternoon.
+  */
+  --ink-strong: rgba(18, 20, 52, 0.86);
+  --ink-muted: rgba(18, 20, 52, 0.46);
+  --ink-hairline: rgba(18, 20, 52, 0.16);
+  --ink-whisper: rgba(18, 20, 52, 0.07);
+
+  /*
+    ── spacing scale ──────────────────────────────────────────────────
+    A modular ramp, roughly 1.5×. Sections, headings and cards all step
+    through the same numbers, which is most of what separates a laid-out
+    page from a stack of arbitrary margins.
+  */
+  --space-2xs: 0.35rem;
+  --space-xs: 0.6rem;
+  --space-sm: 0.9rem;
+  --space-md: 1.4rem;
+  --space-lg: 2.1rem;
+  --space-xl: 3.2rem;
+  --space-2xl: 4.8rem;
+
+  /*
+    ── elevation ──────────────────────────────────────────────────────
+    Paper sits on paper, so every shadow is a tight contact shadow plus a
+    wide soft one. Three heights: at rest, lifted, and floating over the
+    page. Nothing casts a shadow that a real sheet of paper wouldn't.
+  */
+  --lift-rest:
+    0 1px 1px rgba(18, 20, 52, 0.05), 0 6px 18px -10px rgba(18, 20, 52, 0.28);
+  --lift-raised:
+    0 2px 3px rgba(18, 20, 52, 0.06), 0 16px 30px -18px rgba(18, 20, 52, 0.38);
+  --lift-float:
+    0 2px 4px rgba(18, 20, 52, 0.07), 0 22px 44px -22px rgba(18, 20, 52, 0.44);
+
+  /*
+    ── motion ─────────────────────────────────────────────────────────
+    Two curves and three durations, used everywhere. `--ease-settle`
+    overshoots slightly and lands — it's for things arriving on the page.
+    `--ease-swift` never overshoots — it's for controls, where a bounce
+    would read as imprecision.
+  */
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-quick: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 620ms;
 }
 
 * {
@@ -41,26 +93,27 @@ html {
 }
 
 /*
-  Paper, not screen. Two very soft washes of colour keep the background
-  from being a flat fill, and a fine grain sits over the top — the tooth
-  you'd see on a sheet of cartridge paper. Both are inlined SVG/gradients
-  so there's nothing extra to download.
+  Paper, not screen. A soft wash of colour keeps the background from
+  being a flat fill, and a fine grain sits over the top — the tooth you'd
+  see on a sheet of cartridge paper. Both are inline so there's nothing
+  extra to download.
+
+  The wash runs top to bottom. It's attached fixed, so it stays put
+  against the viewport as the page scrolls rather than sliding under the
+  text.
 */
 body {
   background-color: var(--creme);
   background-image:
-    radial-gradient(
-      ellipse 80% 55% at 12% 8%,
-      rgba(210, 213, 243, 0.28),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 70% 50% at 88% 72%,
-      rgba(232, 213, 232, 0.24),
-      transparent 70%
+    linear-gradient(
+      180deg,
+      rgba(210, 213, 243, 0.3) 0%,
+      rgba(244, 243, 237, 0) 38%,
+      rgba(244, 243, 237, 0) 62%,
+      rgba(232, 213, 232, 0.26) 100%
     ),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
-  background-attachment: fixed, fixed, fixed;
+  background-attachment: fixed, fixed;
   color: var(--navy);
   font-family: var(--font-body);
   font-size: 1.075rem;
@@ -73,6 +126,27 @@ img {
   display: block;
 }
 
+/*
+  Pictures develop rather than appear: a fade with a touch of scale and
+  blur coming off, so a gallery filling in reads as prints being laid
+  down instead of holes being punched in the page.
+*/
+.img-fade {
+  opacity: 0;
+  transform: scale(1.015);
+  filter: blur(6px);
+  transition:
+    opacity 620ms var(--ease-swift),
+    transform 620ms var(--ease-settle),
+    filter 620ms var(--ease-swift);
+}
+
+.img-fade--in {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
 a {
   color: inherit;
 }
@@ -80,6 +154,86 @@ a {
 .container {
   width: min(1120px, 92vw);
   margin: 0 auto;
+}
+
+/* ---------- accessibility furniture ---------- */
+
+/*
+  Visible focus, everywhere, on one rule.
+
+  `:focus-visible` rather than `:focus` is the point: the ring appears
+  for keyboard and assistive navigation and stays out of the way of mouse
+  clicks, so there is no reason left to switch it off. The site had no
+  focus styling at all beyond the browser default, which the creme
+  background rendered nearly invisible.
+*/
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+  /* A lavender halo behind the ink line, so it reads on the navy panels
+     as well as on paper. */
+  box-shadow: 0 0 0 5px rgba(210, 213, 243, 0.6);
+  border-radius: 1px;
+}
+
+/* On navy grounds the ring inverts. */
+.callout :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--lavender);
+  box-shadow: 0 0 0 5px rgba(18, 20, 52, 0.5);
+}
+
+/* The skip link is the first thing in the tab order and invisible until
+   it is focused, at which point it drops onto the page. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 100;
+  translate: -50% -130%;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--creme);
+  background: var(--navy);
+  padding: 0.85rem 1.5rem;
+  box-shadow: var(--lift-float);
+  transition: translate var(--dur-base) var(--ease-settle);
+}
+
+.skip-link:focus-visible {
+  translate: -50% 0;
+}
+
+/* Focusing <main> after a skip is a mechanism, not a control — it should
+   not draw a ring of its own. */
+main:focus {
+  outline: none;
+}
+
+/* ---------- reading progress ---------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 70;
+  pointer-events: none;
+}
+
+.scroll-progress__bar {
+  height: 100%;
+  /* Scaled from the left rather than resized: transform is the only
+     property here the compositor can animate without re-laying out the
+     page on every scroll frame. */
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--lavender), var(--navy));
 }
 
 /* ---------- masthead ---------- */
@@ -93,8 +247,9 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Without a gap the date runs straight into "VOL." on narrow screens. */
-  gap: 0.6rem 1.6rem;
+  /* A generous floor, so the items never crowd even when the container
+     is narrow enough that space-between has little left to distribute. */
+  gap: 0.6rem 3rem;
   flex-wrap: wrap;
   padding: 0.55rem 0;
   border-bottom: 1px solid var(--rule);
@@ -127,6 +282,32 @@ a {
 
 .masthead__title a {
   text-decoration: none;
+  /* The letters are inline-block for the transform, which would otherwise
+     leave the link's own box collapsed around them. */
+  display: inline-block;
+}
+
+/*
+  The wordmark sets itself, letter by letter — each one dropping in and
+  settling a beat after the one before it. It runs once, when the site
+  loads; the delay is a multiple of the letter's index, handed down from
+  Layout as --letter-i.
+*/
+.masthead__letter {
+  display: inline-block;
+  animation: letter-set 720ms var(--ease-settle) both;
+  animation-delay: calc(var(--letter-i, 0) * 55ms);
+}
+
+@keyframes letter-set {
+  from {
+    opacity: 0;
+    transform: translateY(0.22em) rotate(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 .masthead__tagline {
@@ -157,21 +338,41 @@ a {
 /* ---------- navigation ---------- */
 
 /*
-  This bar used to carry `position: sticky; top: 0`, which never did
-  anything: a sticky element can only travel inside its own parent, and
-  .nav is the last thing in <header>, so its sticky range was zero
-  pixels — it scrolled away with the header every time. That's what made
-  the menu "disappear" partway down a page.
+  The bar genuinely sticks now.
 
-  The floating .quicknav is the actual fix; it fades in once the header
-  is gone. Leaving the no-op sticky here would just be misleading.
+  It used to carry `position: sticky; top: 0` while sitting as the last
+  child of <header>, which did nothing at all — a sticky element can only
+  travel inside its own parent, so its sticky range was zero pixels and
+  it scrolled away with the header every time. Layout now renders it as a
+  sibling of <header> instead, which makes the page its containing block
+  and gives it the whole scroll to travel.
+
+  Once pinned it condenses: less padding, a ground of its own so text
+  doesn't run underneath it, and a shadow to lift it off the page.
 */
 .nav {
+  position: sticky;
+  top: 0;
+  /* Above the page, below the quick-nav (45), drawer backdrop (50) and
+     drawer (60). */
+  z-index: 40;
   border-top: 3px double var(--navy);
   border-bottom: 3px double var(--navy);
   background: var(--creme);
-  position: relative;
-  z-index: 10;
+  transition:
+    padding var(--dur-base) var(--ease-swift),
+    box-shadow var(--dur-base) var(--ease-swift),
+    background var(--dur-base) var(--ease-swift);
+}
+
+.nav--stuck {
+  /* Slightly translucent, with a blur behind — the ruled paper shows
+     through as a tint rather than the bar reading as a separate slab. */
+  background: rgba(244, 243, 237, 0.92);
+  backdrop-filter: blur(9px) saturate(1.4);
+  -webkit-backdrop-filter: blur(9px) saturate(1.4);
+  border-top-color: transparent;
+  box-shadow: 0 6px 20px -14px rgba(18, 20, 52, 0.55);
 }
 
 .nav__list {
@@ -186,6 +387,12 @@ a {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  transition: padding var(--dur-base) var(--ease-swift);
+}
+
+/* Tightened once pinned, so the bar takes less of the window. */
+.nav--stuck .nav__list {
+  padding: 0.5rem 0;
 }
 
 .nav__link {
@@ -255,7 +462,17 @@ a {
 
 /* ---------- floating quick-nav ---------- */
 
+/*
+  Only ever shown on phones now.
+
+  The floating menu existed because the nav bar scrolled away and there
+  was no other way back to it. With the bar genuinely sticky on desktop
+  it would be a second, redundant menu button hovering over a menu that
+  is already on screen — so above the mobile breakpoint it is gone. On
+  phones the bar is hidden entirely and this is still the way around.
+*/
 .quicknav {
+  display: none;
   position: fixed;
   top: 1rem;
   right: 1rem;
@@ -465,6 +682,52 @@ a {
   background: var(--lavender-soft);
   border-left: 3px solid var(--navy);
   padding-left: 0.8rem;
+}
+
+/*
+  The links deal themselves out down the drawer as it slides open. The
+  delay is set per item rather than from a variable because the list is
+  short and fixed — eight nth-child rules is less machinery than passing
+  an index through from React for a menu that never changes length.
+*/
+.drawer--open .drawer__list li {
+  animation: drawer-deal 420ms var(--ease-settle) both;
+}
+
+.drawer__list li:nth-child(1) {
+  animation-delay: 90ms;
+}
+.drawer__list li:nth-child(2) {
+  animation-delay: 130ms;
+}
+.drawer__list li:nth-child(3) {
+  animation-delay: 170ms;
+}
+.drawer__list li:nth-child(4) {
+  animation-delay: 210ms;
+}
+.drawer__list li:nth-child(5) {
+  animation-delay: 250ms;
+}
+.drawer__list li:nth-child(6) {
+  animation-delay: 290ms;
+}
+.drawer__list li:nth-child(7) {
+  animation-delay: 330ms;
+}
+.drawer__list li:nth-child(n + 8) {
+  animation-delay: 370ms;
+}
+
+@keyframes drawer-deal {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ---------- shared page furniture ---------- */
@@ -1137,7 +1400,9 @@ a {
   justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
-  margin-bottom: 2.2rem;
+  /* The result count sits between the controls and the grid and carries
+     the rest of the space. */
+  margin-bottom: var(--space-sm);
 }
 
 .chips {
@@ -1147,6 +1412,11 @@ a {
 }
 
 .chip {
+  position: relative;
+  /* Keeps the negative-z fill inside the chip. Without it the sweep
+     would paint behind the chip's own stacking context and disappear
+     under the page background. */
+  isolation: isolate;
   font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 600;
@@ -1157,18 +1427,68 @@ a {
   border: 1px solid var(--navy);
   padding: 0.5rem 1.1rem;
   cursor: pointer;
+  overflow: hidden;
   transition:
-    background 140ms ease,
-    color 140ms ease;
+    color var(--dur-quick) var(--ease-swift),
+    transform var(--dur-quick) var(--ease-settle),
+    box-shadow var(--dur-quick) var(--ease-swift);
+}
+
+/*
+  The fill sweeps in from the left rather than switching on. It's a
+  pseudo-element rather than a background-position trick so the chip's
+  own text colour can cross-fade independently of it.
+*/
+.chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--lavender);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-base) var(--ease-settle);
+  z-index: -1;
+}
+
+.chip:hover::before {
+  transform: scaleX(1);
 }
 
 .chip:hover {
-  background: var(--lavender);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px -5px rgba(18, 20, 52, 0.6);
 }
 
 .chip--active {
   background: var(--navy);
   color: var(--creme);
+}
+
+.chip--active::before {
+  background: var(--navy);
+}
+
+/* The tally under the filters. */
+.result-count {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-faint);
+  margin: 0 0 var(--space-lg);
+}
+
+/* Shown when a filter combination matches nothing. */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+  padding: var(--space-2xl) 0;
+}
+
+.empty-state .lede {
+  margin: 0;
 }
 
 .volume-select {
@@ -1584,65 +1904,6 @@ a {
   max-width: 52ch;
 }
 
-/* ---------- pressed botanical backdrop ---------- */
-
-/*
-  Specimens mounted behind the page. z-index -1 puts them above the body
-  background but under everything else, so no content needs restacking.
-*/
-/*
-  Absolute, not fixed: the specimens belong to the document, so they
-  scroll away with the page instead of hanging in front of it. Its height
-  is set from the measured page height in JS.
-*/
-.pressed-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/*
-  The specimens live in the page margins. As the window narrows those
-  margins close up and the flowers start drifting under the text, so the
-  whole layer fades back rather than competing with it.
-*/
-@media (max-width: 1240px) {
-  .pressed-backdrop {
-    opacity: 0.55;
-  }
-}
-
-@media (max-width: 860px) {
-  .pressed-backdrop {
-    opacity: 0.35;
-  }
-}
-
-.pressed-specimen {
-  position: absolute;
-  translate: -50% -50%;
-  rotate: var(--specimen-rotate, 0deg);
-  /* Barely there — a pressed flower settling under the glass, not a
-     decoration waving for attention. */
-  animation: specimen-breathe 19s ease-in-out infinite;
-}
-
-@keyframes specimen-breathe {
-  0%,
-  100% {
-    rotate: var(--specimen-rotate, 0deg);
-    scale: 1;
-  }
-  50% {
-    rotate: calc(var(--specimen-rotate, 0deg) + 2.5deg);
-    scale: 1.03;
-  }
-}
-
 /* ---------- pressed-flower flourishes ---------- */
 
 /*
@@ -1972,38 +2233,40 @@ a {
 .sidebar__box {
   position: relative;
   background: var(--paper);
-  box-shadow:
-    0 1px 1px rgba(18, 20, 52, 0.05),
-    0 6px 18px -10px rgba(18, 20, 52, 0.3);
+  box-shadow: var(--lift-rest);
   /* `rotate` is its own property here, not part of `transform`, so it has
      to be named in the transition or the straighten-on-hover snaps. */
   transition:
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    rotate 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform var(--dur-base) var(--ease-settle),
+    rotate var(--dur-base) var(--ease-settle),
+    box-shadow var(--dur-base) var(--ease-settle);
 }
 
+/*
+  The angles were roughly a degree, which at card size is a visible tilt —
+  three of them in a row and the grid looks like it failed to align rather
+  than like paper laid down by hand. Halved, they read as the latter: you
+  notice the page isn't mechanical without being able to say why.
+*/
 .card {
   border: 1px solid var(--rule);
   padding: 1.25rem 1.25rem 1.4rem;
-  rotate: -0.55deg;
+  rotate: -0.3deg;
 }
 
 .card:nth-child(even) {
-  rotate: 0.7deg;
+  rotate: 0.36deg;
 }
 
 .card:nth-child(3n) {
-  rotate: -0.3deg;
+  rotate: -0.16deg;
 }
 
 .card:hover,
 .work:hover {
   rotate: 0deg;
   transform: translateY(-5px);
-  box-shadow:
-    0 2px 2px rgba(18, 20, 52, 0.06),
-    0 18px 34px -16px rgba(18, 20, 52, 0.42);
+  box-shadow: var(--lift-raised);
 }
 
 /* The double rule between stacked cards was a newspaper habit. */
@@ -2018,42 +2281,71 @@ a {
   in for the torn ends of a washi roll, and the whole thing is knocked a
   few degrees off square — tape applied by hand never is.
 */
+/*
+  One strip of tape per box. The masthead banner is the exception — it's
+  the biggest thing on the page and carries two, one at each top corner.
+  Buttons get neither tape nor shadow; they're controls, not clippings.
+*/
 .card::before,
-.work:nth-child(3n + 1)::before,
-.pullquote::before {
+.work::before,
+.pullquote::before,
+.sidebar__box::before,
+.callout::before {
   content: "";
   position: absolute;
   top: -11px;
   left: 50%;
-  width: 88px;
-  height: 24px;
+  width: 84px;
+  height: 23px;
   translate: -50% 0;
   rotate: -3.5deg;
   background: var(--tape);
   border-left: 1px dashed var(--tape-edge);
   border-right: 1px dashed var(--tape-edge);
-  box-shadow: 0 1px 2px rgba(18, 20, 52, 0.09);
+  box-shadow: 0 1px 2px rgba(18, 20, 52, 0.08);
   pointer-events: none;
   z-index: 2;
 }
 
 /*
-  Only every third gallery piece gets taped, and never in the same spot.
-  Taping all twenty-odd of them in the same place would read as a
-  repeating pattern — which is the opposite of a scrapbook.
+  Three positions, cycled. Taping every box in the same spot would read
+  as a repeating pattern — the opposite of a scrapbook.
 */
-.card:nth-child(even)::before,
-.work:nth-child(6n + 4)::before {
+.card:nth-child(3n + 2)::before,
+.work:nth-child(3n + 2)::before {
   left: 26%;
-  rotate: 4deg;
-  width: 74px;
+  rotate: 4.5deg;
+  width: 70px;
 }
 
 .card:nth-child(3n)::before,
-.work:nth-child(9n + 7)::before {
+.work:nth-child(3n)::before {
   left: 74%;
   rotate: -6deg;
-  width: 96px;
+  width: 92px;
+}
+
+/* Against navy the strip needs more body to register. */
+.callout::before {
+  background: rgba(210, 213, 243, 0.5);
+  border-left-color: rgba(18, 20, 52, 0.22);
+  border-right-color: rgba(18, 20, 52, 0.22);
+}
+
+/* ---------- shadows ---------- */
+
+/*
+  Everything that behaves like a piece of paper sits slightly off the
+  page. `.sidebar__box`, `.card` and `.work` already carry this from the
+  mounted-paper rule above; these are the ones that didn't.
+*/
+.callout,
+.embed-frame,
+.video-embed {
+  position: relative;
+  box-shadow:
+    0 1px 1px rgba(18, 20, 52, 0.06),
+    0 10px 26px -16px rgba(18, 20, 52, 0.45);
 }
 
 /* ---------- gallery pieces ---------- */
@@ -2064,19 +2356,45 @@ a {
   border-top: 0;
   border: 1px solid var(--rule);
   padding: 1.5rem 1.15rem 1.25rem;
-  rotate: 0.5deg;
+  rotate: 0.28deg;
 }
 
 .work:nth-child(even) {
-  rotate: -0.75deg;
+  rotate: -0.4deg;
 }
 
 .work:nth-child(3n) {
-  rotate: 0.25deg;
+  rotate: 0.14deg;
 }
 
 .work__img {
   box-shadow: 0 2px 10px -4px rgba(18, 20, 52, 0.4);
+}
+
+/*
+  The artwork eases in behind its own frame on hover. `overflow: hidden`
+  lives on the link rather than the image so the frame's border stays put
+  while the picture moves inside it.
+*/
+.work__link {
+  overflow: hidden;
+}
+
+/* This rule outranks `.img-fade`, so it has to restate the fade's own
+   opacity transition or a gallery image would snap in rather than
+   develop. */
+.work__link .work__img {
+  transition:
+    opacity 620ms var(--ease-swift),
+    transform 520ms var(--ease-settle),
+    filter 520ms var(--ease-settle);
+}
+
+.work__link:hover .work__img {
+  transform: scale(1.035);
+  /* A touch more contrast as it comes forward, the way a print looks
+     when you tilt it into the light. */
+  filter: saturate(1.06) contrast(1.02);
 }
 
 /* ---------- pull quote as a taped-in note ---------- */
@@ -2087,16 +2405,51 @@ a {
   border: 1px solid var(--rule);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  padding: 2.4rem 1.6rem 1.9rem;
-  rotate: -0.6deg;
-  box-shadow:
-    0 1px 1px rgba(18, 20, 52, 0.05),
-    0 10px 24px -14px rgba(18, 20, 52, 0.35);
+  padding: 2.6rem 2.2rem 2rem;
+  rotate: -0.35deg;
+  box-shadow: var(--lift-rest);
+  isolation: isolate;
 }
 
 .pullquote::before {
   width: 104px;
   rotate: 2.5deg;
+}
+
+/*
+  An oversized opening quote mark behind the text, drawn in lavender.
+  It fades and drifts up into place as the quote arrives rather than
+  simply being there — the page's one piece of real typographic display.
+*/
+.pullquote::after {
+  content: "\201C";
+  position: absolute;
+  top: -0.06em;
+  left: 0.1em;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 900;
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--lavender);
+  opacity: 0;
+  transform: translateY(0.18em);
+  transition:
+    opacity 700ms var(--ease-settle),
+    transform 700ms var(--ease-settle);
+  pointer-events: none;
+  /*
+    Behind the words. The quote's body is a bare text node, which can't
+    be given a z-index of its own — so the mark goes negative instead,
+    and `isolation` on the parent keeps it from dropping behind the
+    page background as well.
+  */
+  z-index: -1;
+}
+
+.pullquote.is-revealed::after {
+  opacity: 0.85;
+  transform: translateY(0);
 }
 
 /* ---------- botanical rules ---------- */
@@ -2128,7 +2481,7 @@ a {
       var(--creme) 58%,
       rgba(244, 243, 237, 0) 100%
     ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23d2d5f3' stroke='%23121434' stroke-width='1.2' stroke-linejoin='round'%3E%3Cellipse cx='20' cy='8.5' rx='5.4' ry='8'/%3E%3Cellipse cx='20' cy='8.5' rx='5.4' ry='8' transform='rotate(72 20 20)'/%3E%3Cellipse cx='20' cy='8.5' rx='5.4' ry='8' transform='rotate(144 20 20)'/%3E%3Cellipse cx='20' cy='8.5' rx='5.4' ry='8' transform='rotate(216 20 20)'/%3E%3Cellipse cx='20' cy='8.5' rx='5.4' ry='8' transform='rotate(288 20 20)'/%3E%3C/g%3E%3Ccircle cx='20' cy='20' r='4.2' fill='%23f4f3ed' stroke='%23121434' stroke-width='1.2'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3Cpath id='p' d='M20 20 C15.6 16.2 13.4 11.2 14.5 7.2 C15.3 4 17.5 2.5 20 2.5 C22.6 2.5 24.8 4.4 25.5 7.6 C26.4 11.7 24.3 16.6 20 20 Z'/%3E%3C/defs%3E%3Cg fill='%23f6f5ef' stroke='%23121434' stroke-opacity='0.6' stroke-width='0.7' stroke-linejoin='round'%3E%3Cuse href='%23p'/%3E%3Cuse href='%23p' transform='rotate(71 20 20)'/%3E%3Cuse href='%23p' transform='rotate(147 20 20)'/%3E%3Cuse href='%23p' transform='rotate(214 20 20)'/%3E%3Cuse href='%23p' transform='rotate(288 20 20)'/%3E%3Ccircle cx='20' cy='20' r='3.1' fill='%23f6f5ef' stroke-width='0.55'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 26px 26px;
   background-repeat: no-repeat;
   background-position: center;
@@ -2167,19 +2520,17 @@ a {
     color 160ms ease;
 }
 
+/* Buttons stay flat — no tape, no paper shadow. They're controls. */
 .btn:hover {
   transform: translate(-1px, -2px) rotate(-0.8deg);
-  box-shadow: 3px 4px 0 rgba(18, 20, 52, 0.28);
 }
 
 .btn:active {
   transform: translate(1px, 1px) rotate(0deg);
-  box-shadow: 0 1px 0 rgba(18, 20, 52, 0.25);
 }
 
 .btn--pending:hover {
   transform: none;
-  box-shadow: none;
 }
 
 /* The masthead ornament drifts, very slowly. */
@@ -2200,16 +2551,21 @@ a {
 /* Portraits sit slightly crooked, and square up when you look at them. */
 .member__photo,
 .member__initials {
-  rotate: -1.4deg;
+  rotate: -1.2deg;
   box-shadow: 0 4px 14px -8px rgba(18, 20, 52, 0.5);
+  /* This rule outranks `.img-fade` on order, so it has to carry that
+     rule's opacity and filter transitions too — otherwise a portrait
+     would snap from blurred to sharp instead of developing. */
   transition:
-    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 620ms var(--ease-swift),
+    filter 620ms var(--ease-swift),
+    transform var(--dur-base) var(--ease-settle),
+    rotate var(--dur-base) var(--ease-settle);
 }
 
 .member:nth-child(even) .member__photo,
 .member:nth-child(even) .member__initials {
-  rotate: 1.6deg;
+  rotate: 1.3deg;
 }
 
 .member:hover .member__photo,
@@ -2234,6 +2590,8 @@ a {
 */
 :root {
   --hand-rule: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='7' viewBox='0 0 120 7'%3E%3Cpath d='M1 4 C16 1.6 28 5.6 44 3.4 C60 1.4 74 5.4 90 3.6 C102 2.2 111 4.6 119 3.2' fill='none' stroke='%23121434' stroke-width='1.3' stroke-linecap='round' opacity='0.62'/%3E%3C/svg%3E");
+  /* The same stroke in lavender, for headings sitting on navy. */
+  --hand-rule-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='7' viewBox='0 0 120 7'%3E%3Cpath d='M1 4 C16 1.6 28 5.6 44 3.4 C60 1.4 74 5.4 90 3.6 C102 2.2 111 4.6 119 3.2' fill='none' stroke='%23d2d5f3' stroke-width='1.5' stroke-linecap='round' opacity='0.8'/%3E%3C/svg%3E");
   /* An uneven marker band, for swiping behind a heading. */
   --hand-swipe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='22' viewBox='0 0 200 22' preserveAspectRatio='none'%3E%3Cpath d='M1 12 C38 5 78 15 118 8.5 C152 3 178 10.5 199 7 L199 15 C174 19.5 140 13 104 17 C70 20.8 34 14 1 18.5 Z' fill='%23d2d5f3'/%3E%3C/svg%3E");
 }
@@ -2247,13 +2605,6 @@ a {
   margin-bottom: 2.6rem;
   padding: 2.7rem 1.5rem 1.9rem;
   background-color: var(--paper);
-  /* Pressed sprigs tucked into the two bottom corners. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 40 40'%3E%3Cg opacity='0.22'%3E%3Cpath d='M20 38 C20 28 19 16 20 4' fill='none' stroke='%23121434' stroke-width='1'/%3E%3Cg fill='%23d2d5f3' stroke='%23121434' stroke-width='0.9'%3E%3Cellipse cx='14' cy='27' rx='5.6' ry='3' transform='rotate(-28 14 27)'/%3E%3Cellipse cx='26' cy='22' rx='5.6' ry='3' transform='rotate(28 26 22)'/%3E%3Cellipse cx='14.5' cy='17' rx='4.8' ry='2.6' transform='rotate(-32 14.5 17)'/%3E%3Cellipse cx='25' cy='12' rx='4.4' ry='2.4' transform='rotate(32 25 12)'/%3E%3Cellipse cx='20' cy='6' rx='2.9' ry='4.2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='78' height='78' viewBox='0 0 40 40'%3E%3Cg opacity='0.2'%3E%3Cpath d='M20 3 C32 13 31 28 20 37 C9 28 8 13 20 3 Z' fill='%23e8d5e8' stroke='%23121434' stroke-width='0.9'/%3E%3Cpath d='M20 5 L20 35' fill='none' stroke='%23121434' stroke-width='0.5' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: no-repeat, no-repeat;
-  background-position:
-    left 1.4rem bottom -0.6rem,
-    right 1.6rem bottom -0.4rem;
   border: 1px solid var(--rule);
   rotate: -0.45deg;
   box-shadow:
@@ -2310,20 +2661,28 @@ a {
   max-width: 100%;
   /* Deep enough at the top that the tape lands on paper, not on the
      letters — that overlap was what made these look wrong before. */
-  padding: 1.1rem 1.2rem 0.7rem;
+  padding: 1.1rem 1.35rem 0.75rem;
   background: var(--paper);
-  border: 1px solid rgba(18, 20, 52, 0.16);
+  border: 1px solid var(--ink-hairline);
   border-radius: 2px;
-  rotate: -0.9deg;
+  rotate: -0.55deg;
   box-shadow:
     0 1px 0 rgba(18, 20, 52, 0.06),
-    3px 4px 0 -1px rgba(18, 20, 52, 0.14),
-    0 14px 28px -18px rgba(18, 20, 52, 0.4);
-  transition: rotate 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    3px 4px 0 -1px rgba(18, 20, 52, 0.12),
+    var(--lift-rest);
+  transition:
+    rotate var(--dur-base) var(--ease-settle),
+    transform var(--dur-base) var(--ease-settle),
+    box-shadow var(--dur-base) var(--ease-settle);
 }
 
 .page-title:hover {
   rotate: 0deg;
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(18, 20, 52, 0.06),
+    4px 6px 0 -1px rgba(18, 20, 52, 0.12),
+    var(--lift-raised);
 }
 
 /* The marker swipe stays, now sitting inside the plaque. */
@@ -2351,29 +2710,54 @@ a {
   text-align: center;
 }
 
-/* ---------- section heads, as taped paper labels ---------- */
+/* ---------- section heads ---------- */
 
+/*
+  A section head is a signpost, not an exhibit. It gets the hand-drawn
+  rule underneath — enough to stay in the scrapbook's handwriting — and
+  nothing else. The heading itself does the work in the display face.
+*/
 .section-head {
   border-bottom: 0;
-  padding-bottom: 0.9rem;
+  padding-bottom: var(--space-sm);
+  margin: var(--space-xl) 0 var(--space-md);
   background: var(--hand-rule) repeat-x left bottom;
   background-size: 120px 7px;
 }
 
 .section-head h2 {
   position: relative;
-  background: var(--paper);
-  border: 1px solid rgba(18, 20, 52, 0.16);
-  border-radius: 2px;
-  padding: 0.9rem 1rem 0.5rem;
-  rotate: -1deg;
-  letter-spacing: 0.05em;
-  box-shadow: 0 2px 9px -5px rgba(18, 20, 52, 0.45);
-  transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
 }
 
-.section-head:hover h2 {
-  rotate: 0deg;
+/*
+  A short lavender marker stroke grows out from under the heading when
+  the section scrolls in — the one flourish these keep, and it reads as
+  someone underlining the line as you arrive at it.
+*/
+.section-head h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.42rem;
+  height: 0.3em;
+  width: 100%;
+  background: var(--hand-swipe) no-repeat left center;
+  background-size: 100% 100%;
+  opacity: 0.75;
+  transform-origin: left center;
+  scale: 0 1;
+  transition: scale var(--dur-slow) var(--ease-settle);
+}
+
+/* `is-revealed` is the marker ScrollReveal leaves behind for good, as
+   opposed to `reveal--in`, which it strips once the animation lands. */
+.section-head.is-revealed h2::after,
+.section-head:hover h2::after {
+  scale: 1 1;
 }
 
 /* ---------- the blue boxes ---------- */
@@ -2402,80 +2786,90 @@ a {
   background-size: 120px 7px;
 }
 
-/* ---------- list labels, taped down ---------- */
+/* ---------- list labels ---------- */
 
 /*
-  "In This Volume", "Elsewhere", "Connect" — the same paper plaque as the
-  section heads, at label size.
+  "In This Volume", "Elsewhere", "Connect", and the call-out titles.
+
+  These used to be paper plaques with their own strip of tape, the same
+  as the page titles and section heads. Five different heading levels all
+  performing the same trick is what tipped the design from "scrapbook"
+  into "template" — by the third one on a page you stop reading it as a
+  hand-made thing and start seeing the mechanism.
+
+  So the plaque is now rationed. Page titles keep it, because there is
+  exactly one per page and it functions as the page's label. Everything
+  below that level is set in the display face over a hand-drawn rule:
+  still unmistakably of the same magazine, but quiet enough that the
+  plaques above it register as a deliberate accent.
 */
 .sidebar__box h3,
 .footer h4.footer__connect-head,
 .callout h2 {
   position: relative;
-  /*
-    fit-content, not inline-block. Both shrink the plaque to its words,
-    but inline-block also makes the heading flow inline — which pulled
-    the call-out title onto the same line as the kicker above it.
-  */
   width: fit-content;
   max-width: 100%;
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: none;
-  letter-spacing: 0.02em;
-  background: var(--paper);
-  color: var(--navy);
-  border: 1px solid rgba(18, 20, 52, 0.16);
-  border-radius: 2px;
-  /* Top padding again clears the tape off the words. */
-  padding: 0.85rem 0.95rem 0.4rem;
-  rotate: -1.2deg;
-  box-shadow: 0 2px 8px -5px rgba(18, 20, 52, 0.45);
-  transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.01em;
+  padding-bottom: var(--space-xs);
+  /* The same wobbling ink line the section rules use, run under the
+     words at label width. */
+  background: var(--hand-rule) repeat-x left bottom;
+  background-size: 100px 6px;
 }
 
+/*
+  Colour is set per heading, not shared.
+
+  These three sit on three different grounds — pale lavender, navy, navy
+  — so there is no one ink that works for all of them. A shared navy here
+  was what made the call-out title unreadable: it inherited the colour
+  the paper plaque used to justify and lost the pale plaque behind it.
+*/
 .sidebar__box h3 {
-  font-size: 1.05rem;
-  margin-bottom: 1rem;
+  font-size: 1.12rem;
+  /* On the pale lavender box, ink. */
+  color: var(--navy);
+  border-bottom: 0;
+  margin-bottom: var(--space-sm);
 }
 
 .footer h4.footer__connect-head {
-  font-size: 1.05rem;
-  margin-bottom: 1.2rem;
+  font-size: 1.12rem;
+  color: var(--lavender);
+  border-bottom: 0;
+  margin-bottom: var(--space-md);
+  /* On navy the ink rule vanishes — swap it for a lavender one. */
+  background-image: var(--hand-rule-light);
 }
 
 .callout h2 {
-  font-size: clamp(1.4rem, 2.8vw, 2rem);
-  padding: 1rem 1.1rem 0.5rem;
-  margin: 0.9rem 0 1rem;
-  rotate: -1deg;
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  line-height: 1.16;
+  /* Creme on the navy band, the same as the call-out's body copy. */
+  color: var(--creme);
+  margin: var(--space-sm) 0 var(--space-sm);
+  padding-bottom: 0.55rem;
+  background-image: var(--hand-rule-light);
+  background-size: 120px 7px;
 }
 
-/* A centred call-out needs its shrink-wrapped plaque centred too. */
+/* A centred call-out needs its shrink-wrapped heading centred too. */
 .callout--center h2,
 .callout--center .kicker {
   margin-inline: auto;
 }
 
-.sidebar__box:hover h3,
-.callout:hover h2,
-.footer:hover h4.footer__connect-head {
-  rotate: 0deg;
-}
-
-/* ---------- the tape holding every heading on ---------- */
+/* ---------- the tape holding the page title on ---------- */
 
 /*
-  One strip per heading, sitting mostly above the plaque. Only the bottom
-  few pixels cross onto the paper, and each plaque carries enough top
-  padding that the strip never reaches the letters — tape over the words
-  was what made these read as broken rather than pinned.
+  One strip, on the one heading per page that still carries a plaque.
+  It sits mostly above the paper — only the bottom few pixels cross onto
+  it, and the plaque's top padding keeps the strip clear of the letters.
 */
-.page-title::before,
-.section-head h2::before,
-.sidebar__box h3::before,
-.footer h4.footer__connect-head::before,
-.callout h2::before {
+.page-title::before {
   content: "";
   position: absolute;
   top: -14px;
@@ -2491,32 +2885,8 @@ a {
   pointer-events: none;
 }
 
-/* Off-centre, so a column of headings isn't a column of identical tabs. */
-.section-head h2::before {
-  left: 22%;
-  rotate: 5deg;
-  width: 62px;
-}
-
-.sidebar__box h3::before,
-.footer h4.footer__connect-head::before {
-  top: -12px;
-  width: 54px;
-  height: 18px;
-  left: 30%;
-  rotate: -6deg;
-}
-
-/* Against navy the strip needs more body to be visible at all. */
-.footer h4.footer__connect-head::before,
-.callout h2::before {
-  background: rgba(210, 213, 243, 0.55);
-  border-left-color: rgba(18, 20, 52, 0.22);
-  border-right-color: rgba(18, 20, 52, 0.22);
-}
-
 .sidebar__box {
-  rotate: -0.35deg;
+  rotate: -0.3deg;
 }
 
 .sidebar__box:hover {
@@ -2570,17 +2940,62 @@ a {
     rotate: 0deg;
   }
 
-  .masthead__ornament,
-  .pressed-specimen {
+  .masthead__ornament {
     animation: none;
   }
 
   .card:hover,
   .work:hover,
   .btn:hover,
+  .chip:hover,
+  .page-title:hover,
+  .work__link:hover .work__img,
   .member:hover .member__photo,
   .member:hover .member__initials {
     transform: none;
+  }
+
+  /*
+    Anything whose finished state is normally reached by an animation has
+    to be given that state outright here.
+
+    ScrollReveal returns early under reduced motion and never applies the
+    `is-revealed` marker, so the two decorations keyed off it — the marker
+    stroke under a section head and the quote mark behind a pull quote —
+    would otherwise stay at their starting values and simply never appear.
+    The same goes for the image fade: no transition means no fade, but it
+    must still end up opaque.
+  */
+  .section-head h2::after {
+    scale: 1 1;
+    transition: none;
+  }
+
+  .pullquote::after {
+    opacity: 0.85;
+    transform: none;
+    transition: none;
+  }
+
+  .img-fade {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .masthead__letter,
+  .masthead__title a:hover .masthead__letter,
+  .drawer--open .drawer__list li {
+    animation: none;
+  }
+
+  .nav,
+  .nav__list,
+  .chip,
+  .chip::before,
+  .skip-link {
+    transition: none;
   }
 }
 
@@ -2615,10 +3030,14 @@ a {
     justify-self: start;
   }
 
+  /*
+    Only the date and the volume survive at this width, and centring
+    them left the two bunched together in the middle. space-between
+    pushes them out to opposite edges instead.
+  */
   .topbar {
-    justify-content: center;
-    text-align: center;
-    gap: 0.35rem 1.1rem;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
   }
@@ -2659,6 +3078,7 @@ a {
   /* The floating menu matters more here, not less — the header menu
      button scrolls out of view on a phone just like the nav bar does. */
   .quicknav {
+    display: block;
     top: 0.85rem;
     right: 0.85rem;
   }

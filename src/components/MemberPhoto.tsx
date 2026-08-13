@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FadeInImage from "./FadeInImage";
 import { resolveImageUrl } from "../data/works";
 
 interface MemberPhotoProps {
@@ -37,11 +38,12 @@ export default function MemberPhoto({ name, src }: MemberPhotoProps) {
   }
 
   return (
-    <img
+    <FadeInImage
       className="member__photo"
       src={resolveImageUrl(src)}
       alt={name}
       loading="lazy"
+      decoding="async"
       onError={() => setFailed(true)}
     />
   );
