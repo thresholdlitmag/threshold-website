@@ -120,12 +120,8 @@ export default function Home() {
       <section className="callout">
         <div>
           <span className="kicker">Submissions Open</span>
-          <h2>Send us your poetry, prose, and art</h2>
-          <p>
-            Every edition of <i>Threshold</i> is built from student
-            submissions — we read every piece with care, and we'd love to
-            read yours.
-          </p>
+          <h2>Send us your writing and art!</h2>
+
         </div>
         <div className="callout__action">
           <Link className="btn" to="/submit">
