@@ -1,18 +1,16 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import PlaceholderImage from "../components/PlaceholderImage";
 import WorkText from "../components/WorkText";
-import {
-  homeSelection,
-  isVisual,
-  resolveImageUrl,
-  typeLabel,
-} from "../data/works";
+import WorkVisual from "../components/WorkVisual";
+import { homeSelection, isVisual, typeLabel } from "../data/works";
 
 export default function Home() {
   // Random picks, fixed for this visit (useMemo keeps them stable
   // across re-renders; a page refresh draws a new set).
-  const { hero, artwork, highlights, inThisIssue } = useMemo(homeSelection, []);
+  const { hero, artwork, welcomeArt, highlights, inThisVolume } = useMemo(
+    homeSelection,
+    [],
+  );
   // Show the full piece if it's been added; otherwise preview the excerpt.
   const heroText = hero.fullText ?? hero.excerpt?.split(" / ").join("\n");
 
@@ -21,7 +19,7 @@ export default function Home() {
       {/* -------- featured work, straight from the gallery -------- */}
       <section className="hero">
         <article>
-          <span className="kicker">Featured &middot; From {hero.edition}</span>
+          <span className="kicker">Featured &middot; From {hero.volume}</span>
           <h2 className="hero__headline">
             <Link to={`/gallery/${hero.id}`}>{hero.title}</Link>
           </h2>
@@ -32,14 +30,8 @@ export default function Home() {
             <div className="two-col">
               <WorkText text={heroText} type={hero.type} limit={3} dropcap />
             </div>
-          ) : hero.imageUrl ? (
-            <img
-              className="work-page__img"
-              src={resolveImageUrl(hero.imageUrl)}
-              alt={`${hero.title} by ${hero.author}`}
-            />
           ) : (
-            <PlaceholderImage ratio="16 / 10" framed />
+            <WorkVisual work={hero} className="work-page__img" />
           )}
           <p style={{ marginTop: "1.6rem" }}>
             <Link className="btn btn--ghost" to={`/gallery/${hero.id}`}>
@@ -51,31 +43,13 @@ export default function Home() {
         <aside className="sidebar">
           {artwork && (
             <Link to={`/gallery/${artwork.id}`} className="sidebar__art">
-              {artwork.imageUrl ? (
-                <figure className="figure">
-                  <img
-                    className="work-page__img"
-                    src={resolveImageUrl(artwork.imageUrl)}
-                    alt={`${artwork.title} — ${artwork.medium} by ${artwork.author}`}
-                  />
-                  <figcaption>
-                    {artwork.title} &middot; {artwork.medium} &middot;{" "}
-                    {artwork.author}
-                  </figcaption>
-                </figure>
-              ) : (
-                <PlaceholderImage
-                  ratio="4 / 5"
-                  framed
-                  caption={`${artwork.title} · ${artwork.medium} · ${artwork.author}`}
-                />
-              )}
+              <WorkVisual work={artwork} caption className="work-page__img" />
             </Link>
           )}
           <div className="sidebar__box">
-            <h3>In This Issue</h3>
+            <h3>In This Volume</h3>
             <ul>
-              {inThisIssue.map((piece) => (
+              {inThisVolume.map((piece) => (
                 <li key={piece.id}>
                   <Link to={`/gallery/${piece.id}`}>{piece.title}</Link>
                   <em>{typeLabel(piece)}</em>
@@ -97,23 +71,27 @@ export default function Home() {
           </h2>
           <div className="prose">
             <p>
-              <i>Threshold</i> is Thomas Jefferson High School's literary and arts magazine. 
-              This year our theme is [Theme], and we meet Wednesday 8B and Friday 8A in Mrs. 
-              Procelli's room, Room XX. Come join us, we are always looking for new members! 
+              <i>Threshold</i> is Thomas Jefferson High School's literary and arts magazine.
+              This year our theme is [Theme], and we meet Wednesday 8B and Friday 8A in Mrs.
+              Procelli's room, Room XX. Come join us, we are always looking for new members!
             </p>
             <p>
               Each year, our student editors gather poetry, prose, art, and
-              music from across the school and shape them into a new edition —
-              now in our thirty-ninth volume.
+              music from across the school and shape them into a new volume —
+              now in our thirty-ninth.
             </p>
           </div>
           <p style={{ marginTop: "1.6rem" }}>
-            <Link className="btn btn--ghost" to="/about">
-              Read Our Story
+            <Link className="btn btn--ghost" to="/gallery">
+              Browse the Gallery
             </Link>
           </p>
         </div>
-        <PlaceholderImage ratio="16 / 11" caption="Photo — editorial team at work" />
+        {welcomeArt && (
+          <Link to={`/gallery/${welcomeArt.id}`} className="sidebar__art">
+            <WorkVisual work={welcomeArt} caption />
+          </Link>
+        )}
       </section>
 
       {/* -------- submissions call-out -------- */}
@@ -140,15 +118,7 @@ export default function Home() {
           <article className="card" key={piece.id}>
             <Link to={`/gallery/${piece.id}`} className="work__link">
               {isVisual(piece) ? (
-                piece.imageUrl ? (
-                  <img
-                    className="work__img"
-                    src={resolveImageUrl(piece.imageUrl)}
-                    alt={`${piece.title} by ${piece.author}`}
-                  />
-                ) : (
-                  <PlaceholderImage ratio="16 / 10" />
-                )
+                <WorkVisual work={piece} />
               ) : (
                 <blockquote className="work__text">
                   {piece.excerpt?.split(" / ").map((line, i) => (

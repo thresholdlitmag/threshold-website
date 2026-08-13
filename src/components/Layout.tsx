@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-
-const NAV_ITEMS = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/e-design", label: "E-Design" },
-  { to: "/shadwell", label: "Shadwell" },
-  { to: "/events", label: "Events" },
-  { to: "/submit", label: "Submit" },
-  { to: "/masthead", label: "Masthead" },
-  { to: "/contact", label: "Contact" },
-];
+import BackToTop from "./BackToTop";
+import FlowerEffects from "./FlowerEffects";
+import PressedBackdrop from "./PressedBackdrop";
+import QuickNav from "./QuickNav";
+import ScrollReveal from "./ScrollReveal";
+import ScrollToTop from "./ScrollToTop";
+import { NAV_ITEMS } from "../data/nav";
 
 function todayLine(): string {
   return new Date().toLocaleDateString("en-US", {
@@ -41,13 +36,41 @@ export default function Layout() {
 
   return (
     <>
+      <ScrollToTop />
+      <ScrollReveal />
+      <PressedBackdrop />
       <header>
         <div className="container">
           <div className="topbar">
-            <span>{todayLine()}</span>
-            <span>Vol. XXXIX &middot; Est. 1986</span>
-            <span>Poetry &middot; Prose &middot; Art &middot; Music</span>
+            <span className="topbar__date">{todayLine()}</span>
+            <span className="topbar__vol">Vol.&nbsp;XXXIX</span>
+            <span className="topbar__est">Est.&nbsp;1986</span>
+            <span className="topbar__genres">
+              Poetry &middot; Prose &middot; Art &middot; Music
+            </span>
           </div>
+
+          {/*
+            The menu button sits above the Threshold wordmark on phones,
+            where the horizontal nav row is hidden. On desktop this row
+            is hidden and the nav bar below the masthead takes over.
+          */}
+          <div className="mobilebar">
+            <button
+              className="nav__toggle"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            <span className="mobilebar__label" aria-hidden="true">
+              Menu
+            </span>
+          </div>
+
           <div className="masthead">
             <h1 className="masthead__title">
               <Link to="/">Threshold</Link>
@@ -62,19 +85,6 @@ export default function Layout() {
         </div>
         <nav className="nav" aria-label="Primary">
           <div className="container nav__bar">
-            <button
-              className="nav__toggle"
-              aria-label="Open menu"
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen(true)}
-            >
-              <span />
-              <span />
-              <span />
-            </button>
-            <span className="nav__mobile-label" aria-hidden="true">
-              Menu
-            </span>
             <ul className="nav__list">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}>
@@ -133,9 +143,15 @@ export default function Layout() {
         </ul>
       </aside>
 
-      <main>
+      <QuickNav />
+
+      {/* Keyed on the path so each page replays the settle-in animation. */}
+      <main key={location.pathname} className="page-enter">
         <Outlet />
       </main>
+
+      <BackToTop />
+      <FlowerEffects />
 
       <footer className="footer">
         <div className="container">
@@ -143,22 +159,12 @@ export default function Layout() {
             <div>
               <div className="footer__brand">Threshold</div>
               <p>
-                <i>Threshold</i> is a forum for student work. This magazine was founded on the premise that all fields hold opportunities for creative expression 
-                and that we can find the essential human creation in everything we create. 
+                <i>Threshold</i> is a forum for student work. This magazine was founded on the premise that all fields hold opportunities for creative expression
+                and that we can find the essential human creation in everything we create.
               </p>
             </div>
             <div>
-              <h4>Explore</h4>
-              <ul>
-                {NAV_ITEMS.map((item) => (
-                  <li key={item.to}>
-                    <Link to={item.to}>{item.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4>Connect</h4>
+              <h4 className="footer__connect-head">Connect</h4>
               <ul>
                 <li>
                   <a href="mailto:thresholdlitmag@gmail.com">Email</a>
@@ -182,7 +188,7 @@ export default function Layout() {
                   </a>
                 </li>
                 <li>
-                  <Link to="/submit">Submission Guidelines</Link>
+                  <Link to="/submit">Submit Your Work</Link>
                 </li>
               </ul>
             </div>
@@ -192,7 +198,10 @@ export default function Layout() {
               &copy; {new Date().getFullYear()} Threshold Literary &amp; Arts
               Magazine
             </span>
-            <span> </span>
+            <span>
+              All work published here remains the property of its author or
+              artist. Please don't repost without permission.
+            </span>
           </div>
         </div>
       </footer>

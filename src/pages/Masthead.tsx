@@ -1,4 +1,4 @@
-import { resolveImageUrl } from "../data/works";
+import MemberPhoto from "../components/MemberPhoto";
 
 const TEAM = [
   { name: "Emma Wu", role: "Editor-in-Chief", grade: "Senior", image: "/pfp/ewu.jpeg" },
@@ -17,7 +17,8 @@ export default function Masthead() {
       <span className="kicker">The People Behind the Pages</span>
       <h1 className="page-title">Masthead</h1>
       <p className="lede">
-        Meet the directors of <i>Threshold</i>
+        Meet the student directors who read, edit, design, and build each
+        volume of <i>Threshold</i>.
       </p>
 
       <hr className="rule-double" />
@@ -25,11 +26,7 @@ export default function Masthead() {
       <section className="team-grid">
         {TEAM.map((member) => (
           <div className="member" key={member.name}>
-            <img
-              className="member__photo"
-              src={resolveImageUrl(member.image)}
-              alt={member.name}
-            />
+            <MemberPhoto name={member.name} src={member.image} />
             <h3>{member.name}</h3>
             <p className="role">{member.role}</p>
             <p>{member.grade}</p>

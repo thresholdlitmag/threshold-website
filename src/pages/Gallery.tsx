@@ -1,12 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import PlaceholderImage from "../components/PlaceholderImage";
+import WorkVisual from "../components/WorkVisual";
 import {
-  EDITIONS,
+  VOLUMES,
   WORKS,
   WorkType,
   isVisual,
-  resolveImageUrl,
   shuffle,
   typeLabel,
 } from "../data/works";
@@ -24,7 +23,7 @@ const FILTERS: { value: Filter; label: string }[] = [
 
 export default function Gallery() {
   const [filter, setFilter] = useState<Filter>("all");
-  const [edition, setEdition] = useState<string>("all");
+  const [volume, setVolume] = useState<string>("all");
 
   // A fresh random order each visit, stable while filtering.
   const ordered = useMemo(() => shuffle(WORKS), []);
@@ -34,9 +33,9 @@ export default function Gallery() {
       ordered.filter(
         (work) =>
           (filter === "all" || work.type === filter) &&
-          (edition === "all" || work.edition === edition),
+          (volume === "all" || work.volume === volume),
       ),
-    [ordered, filter, edition],
+    [ordered, filter, volume],
   );
 
   return (
@@ -44,7 +43,7 @@ export default function Gallery() {
       <span className="kicker">Writing &amp; Art from Our Pages</span>
       <h1 className="page-title">Gallery</h1>
       <p className="lede">
-        Every published work from every edition of Threshold, in one
+        Every published work from every volume of Threshold, in one
         collection.
       </p>
 
@@ -62,35 +61,30 @@ export default function Gallery() {
             </button>
           ))}
         </div>
-        <label className="edition-select">
-          Edition
-          <select value={edition} onChange={(e) => setEdition(e.target.value)}>
-            <option value="all">All editions</option>
-            {EDITIONS.map((ed) => (
-              <option key={ed} value={ed}>
-                {ed}
+        <label className="volume-select">
+          Volume
+          <select value={volume} onChange={(e) => setVolume(e.target.value)}>
+            <option value="all">All volumes</option>
+            {VOLUMES.map((vol) => (
+              <option key={vol} value={vol}>
+                {vol}
               </option>
             ))}
           </select>
         </label>
       </div>
 
+      {/*
+        Masonry: the grid flows down CSS columns instead of across fixed
+        rows, so a short poem next to a tall painting no longer leaves a
+        gap — each card starts right under the one above it.
+      */}
       <section className="gallery-grid">
         {works.map((work) => (
           <article className="work" key={work.id}>
             <Link to={`/gallery/${work.id}`} className="work__link">
               {isVisual(work) ? (
-                work.imageUrl ? (
-                  <figure className="figure">
-                    <img
-                      src={resolveImageUrl(work.imageUrl)}
-                      alt={`${work.title} — ${typeLabel(work)} by ${work.author}`}
-                      className="work__img"
-                    />
-                  </figure>
-                ) : (
-                  <PlaceholderImage ratio="4 / 3" framed />
-                )
+                <WorkVisual work={work} />
               ) : (
                 <blockquote className="work__text">
                   {work.excerpt?.split(" / ").map((line, i) => (
@@ -108,7 +102,7 @@ export default function Gallery() {
               </p>
               <p className="work__tags">
                 <span className="tag">{typeLabel(work)}</span>
-                <span className="tag tag--edition">{work.edition}</span>
+                <span className="tag tag--volume">{work.volume}</span>
               </p>
             </div>
           </article>

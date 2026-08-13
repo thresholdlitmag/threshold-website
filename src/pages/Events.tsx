@@ -25,7 +25,8 @@ export default function Events() {
       <span className="kicker">Mark Your Calendars</span>
       <h1 className="page-title">Events</h1>
       <p className="lede">
-        Meetings, deadlines, and everything happening at Threshold.
+        Meetings, deadlines, and everything else happening at Threshold this
+        year — all in one place.
       </p>
 
       <hr className="rule-double" />
@@ -47,11 +48,18 @@ export default function Events() {
           <p className="byline" style={{ marginBottom: "0.8rem" }}>
             Latest from Facebook
           </p>
-          <div className="embed-frame embed-frame--social">
+          {/*
+            The width/height in this URL are what Facebook actually renders
+            at — the plain iframe embed ignores the container, so asking for
+            500 wide meant the right edge was cut off on a phone. 320 fits
+            the narrowest screen we care about, and the shorter height stops
+            the timeline from swallowing the whole page.
+          */}
+          <div className="embed-frame embed-frame--social embed-frame--facebook">
             <iframe
               src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
                 FACEBOOK_URL,
-              )}&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`}
+              )}&tabs=timeline&width=320&height=440&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`}
               title="Threshold on Facebook"
               scrolling="no"
               allow="encrypted-media"

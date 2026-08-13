@@ -10,7 +10,7 @@
  *               image; spotlight displays like prose)
  *   medium    — art only (e.g. Watercolor, Digital, Mixed Media, Acrylic)
  *   author    — the contributor's name
- *   edition   — which edition of Threshold it appeared in
+ *   volume    — which volume of Threshold it appeared in
  *   excerpt   — short preview shown on cards (writing only)
  *   fullText  — the complete piece, shown on the work's own page.
  *               Use a blank line between stanzas/paragraphs; for poetry,
@@ -21,7 +21,7 @@
  *                 • a full https:// link to an image hosted elsewhere
  *                   (Imgur, Google Drive direct link, etc.)
  * The Home page picks its featured work, highlights, and "In This
- * Issue" list at random on every visit, and the Gallery shuffles its
+ * Volume" list at random on every visit, and the Gallery shuffles its
  * order — no flags needed.
  *
  * Every work automatically gets its own page at /gallery/<id>.
@@ -35,7 +35,7 @@ export interface Work {
   type: WorkType;
   medium?: string;
   author: string;
-  edition: string;
+  volume: string;
   excerpt?: string;
   fullText?: string;
   imageUrl?: string;
@@ -43,9 +43,9 @@ export interface Work {
   highlight?: boolean;
 }
 
-export const EDITIONS = ["Issue XXXIX — Spring 2026"] as const;
+export const VOLUMES = ["Volume XXXIX — Spring 2026"] as const;
 
-export const LATEST_EDITION = EDITIONS[0];
+export const LATEST_VOLUME = VOLUMES[0];
 
 export const WORKS: Work[] = [
   {
@@ -53,7 +53,7 @@ export const WORKS: Work[] = [
     title: "O’ Great Goddess Durga",
     type: "poetry",
     author: "Bastion Price",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt:
       "The great goddess Durga, embodiment of power / An array of 16 arms, like petals of a flower / Each holding a weapon, of each there are only one / Grinning cheekily after a battle easilly won",
     fullText: 
@@ -92,7 +92,7 @@ export const WORKS: Work[] = [
     title: "Abandoned",
     type: "prose",
     author: "Cora Lin",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt:
       "Mahishasura flew at Durga, and Durga killed him; Brahma’s blessing left the demon immune to man, god, and beast, but he had left a loophole—a woman’s hand. Mahishasura was the reason for her birth, and now she was the reason for his death.",
     fullText: 
@@ -162,7 +162,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Kina Xu",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     highlight: true,
     imageUrl: "/art/lovingfeathers.jpg",
   },
@@ -171,7 +171,7 @@ export const WORKS: Work[] = [
     title: "fluffy white clouds",
     type: "poetry",
     author: "Ojasvi Ramani",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt: 
       "they were hung up a little too high / fasted with tape and barely sticky adhesive / we teetered tall on our ladder / my hand barely reaching the dusty corners",
     fullText: 
@@ -222,7 +222,7 @@ export const WORKS: Work[] = [
     title: "Sin Stubborn",
     type: "poetry",
     author: "Kobimtochi Obi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt:
       "the serpent's fruit / didn't leave me with childbirth / but it did bless me with stubborn hands / that creep south / splaying around in all things Eve",
     fullText:
@@ -271,7 +271,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Mixed Media",
     author: "Moubon Ray Kurukumbi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     imageUrl: "/art/hideaway.jpg",
   },
   {
@@ -279,7 +279,7 @@ export const WORKS: Work[] = [
     title: "Free Birds",
     type: "prose",
     author: "Justin Yu",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt:
       "When we first arrived in America, it was all over the news. “From Virginia Suburb, a Dissident Chinese Writer Continues His Mission,” reported The New York Times, along with a picture of my parents holding a three-year-old me. ",
     fullText: 
@@ -411,7 +411,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Olivia Kim",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     imageUrl: "/art/thesea.jpg",
   },
   {
@@ -419,7 +419,7 @@ export const WORKS: Work[] = [
     title: "The Sound of Spring",
     type: "poetry",
     author: "Kobimtochi Obi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt: "Every evening, I hope I find a hare on my doorstep. / * / Winter had marched all over my spirit the first time I met you. My coat had lived a far more exciting life than me, with holes all over to tell it.",
     fullText: 
       `Every evening, I hope I find a hare on my doorstep. 
@@ -486,7 +486,7 @@ export const WORKS: Work[] = [
     title: "Elegy for Sunday Novenas",
     type: "poetry",
     author: "Kobimtochi Obi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt:"“You are sitting on the hand of God. / Continue to play. / I know where I will find myself on Judgment Day.” / my father says he has already decided my fate.",
     fullText: 
       `“You are sitting on the hand of God.
@@ -546,7 +546,7 @@ export const WORKS: Work[] = [
     title: "six suitcases and three years",
     type: "poetry",
     author: "Audrey Na",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt: "three years ago, / when i’d visit you, / you’d tell me how beautiful i was, / how much i’d grown.",
     fullText: 
       `three years ago, 
@@ -644,7 +644,7 @@ export const WORKS: Work[] = [
     title: "Taiwanese Popcorn Chicken",
     type: "prose",
     author: "Justin Yu",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt: "Ever since I was six years old, my family has been going to Taiwan for the summer. We’ve done this for eight summers now, and I think I can say with some degree of confidence that the greatest joy I found in Taiwan took the form of night markets.",
     fullText: 
       `Ever since I was six years old, my family has been going to Taiwan for the summer. We’ve done this for 
@@ -680,7 +680,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Photography",
     author: "Kutay Baygin",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     imageUrl: "/art/lifeinablur.jpg",
   },
   {
@@ -689,7 +689,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Mixed Media",
     author: "Kina Xu",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/sidewalkstories.jpg",
   },
   {
@@ -698,7 +698,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acyrlic",
     author: "Kina Xu",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/dualityofadancer.jpg",
   },
   {
@@ -707,7 +707,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Juliet Phillips",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/4-11-14.jpg",
   },
   {
@@ -716,7 +716,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Altered Book/Mixed Media",
     author: "Moubon Ray Kurukumbi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     imageUrl: "/art/burned.jpg",
     highlight: true,
   },
@@ -726,7 +726,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Juliet Phillips",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/17-24-26.jpg",
   },
   {
@@ -735,7 +735,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Digital Art",
     author: "Olivia Kim",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/mythos.jpg",
   },
   {
@@ -744,7 +744,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Kyungsup Huang",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/blowoutawish.jpg",
   },
   {
@@ -753,7 +753,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Acrylic",
     author: "Kyungsup Huang",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/halfofawhole.jpg",
   },
   {
@@ -762,7 +762,7 @@ export const WORKS: Work[] = [
     type: "art",
     medium: "Drypoint Etching",
     author: "Kyungsup Huang",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     //imageUrl: "/art/reachforthestars.jpg",
   },
   {
@@ -770,7 +770,7 @@ export const WORKS: Work[] = [
     title: "reptile apocalypse (or in other words, please love me like this)",
     type: "poetry",
     author: "Kobimtochi Obi",
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt: "water laps up the sides of the bathtub / each wet curve on porcelain is a lizard’s tail / i let it take me as i sink into the bath / i’m hoping to become something reptilian",
     fullText: 
       `water laps up the sides of the bathtub
@@ -841,7 +841,7 @@ export const WORKS: Work[] = [
     type: WorkType,
     medium?: string,
     author: string,
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt?: string,
     fullText?: string,
     imageUrl?: string,
@@ -852,7 +852,7 @@ export const WORKS: Work[] = [
     type: WorkType,
     medium?: string,
     author: string,
-    edition: "Issue XXXIX — Spring 2026",
+    volume: "Volume XXXIX — Spring 2026",
     excerpt?: string,
     fullText?: string,
     imageUrl?: string,
@@ -883,13 +883,15 @@ export function shuffle<T>(items: readonly T[]): T[] {
 export interface HomeSelection {
   hero: Work;
   artwork?: Work;
+  /** Second artwork, shown beside the welcome blurb. */
+  welcomeArt?: Work;
   highlights: Work[];
-  inThisIssue: Work[];
+  inThisVolume: Work[];
 }
 
 /**
  * Random picks for the Home page — a different feature, artwork,
- * highlights row, and "In This Issue" list on every visit.
+ * highlights row, and "In This Volume" list on every visit.
  */
 export function homeSelection(): HomeSelection {
   const pool = shuffle(WORKS);
@@ -903,21 +905,33 @@ export function homeSelection(): HomeSelection {
   const artwork =
     rest.find((work) => isVisual(work) && work.imageUrl) ??
     rest.find(isVisual);
-  const remaining = rest.filter((work) => work.id !== artwork?.id);
+  const afterArtwork = rest.filter((work) => work.id !== artwork?.id);
+  // A second, different piece of real artwork for the welcome section.
+  const welcomeArt = afterArtwork.find(
+    (work) => isVisual(work) && work.imageUrl,
+  );
+  const remaining = afterArtwork.filter((work) => work.id !== welcomeArt?.id);
   return {
     hero,
     artwork,
+    welcomeArt,
     highlights: remaining.slice(0, 3),
-    inThisIssue: remaining
-      .filter((work) => work.edition === LATEST_EDITION)
+    inThisVolume: remaining
+      .filter((work) => work.volume === LATEST_VOLUME)
       .slice(0, 4),
   };
 }
 
-/** Card label for a work's type: medium for art/music, genre otherwise. */
+/**
+ * Card label for a work's type.
+ *
+ * Art shows its medium ("Acrylic", "Photography"). Music always reads as
+ * "Music" so it stays a category of its own everywhere it appears —
+ * labelling a piece only by its instrument lost that.
+ */
 export function typeLabel(work: Work): string {
   if (work.type === "art") return work.medium ?? "Art";
-  if (work.type === "music") return work.medium ?? "Music";
+  if (work.type === "music") return "Music";
   return work.type;
 }
 

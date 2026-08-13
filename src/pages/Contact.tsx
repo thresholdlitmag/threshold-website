@@ -1,11 +1,18 @@
 import { FormEvent } from "react";
-import PlaceholderImage from "../components/PlaceholderImage";
+import { CONTACT_EMAIL } from "../data/site";
+import { showerPetals } from "../lib/petals";
 
 export default function Contact() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    showerPetals();
     // Wire this to a form backend (Formspree, Google Forms, etc.) later.
-    alert("Thank you! (This form is a placeholder — no message was sent.)");
+    // The alert waits a beat so the petals are on screen behind it.
+    window.setTimeout(
+      () =>
+        alert("Thank you! (This form is a placeholder — no message was sent.)"),
+      450,
+    );
   }
 
   return (
@@ -13,13 +20,13 @@ export default function Contact() {
       <span className="kicker">Get in Touch</span>
       <h1 className="page-title">Contact</h1>
       <p className="lede">
-        Questions, ideas, or just want to say
-        hello? Write to us.
+        Questions, ideas, or just want to say hello? Write to us — we read
+        everything that comes in.
       </p>
 
       <hr className="rule-double" />
 
-      <section className="grid-2">
+      <section className="contact-single">
         <form className="form" onSubmit={handleSubmit}>
           <label>
             Name
@@ -58,44 +65,41 @@ export default function Contact() {
           </div>
         </form>
 
-        <aside className="sidebar">
-          <PlaceholderImage ratio="16 / 11" caption="Photo — placeholder" />
-          <div className="sidebar__box">
-            <h3>Elsewhere</h3>
-            <ul>
-              <li>
-                <a href="mailto:thresholdlitmag@gmail.com ">thresholdlitmag@gmail.com </a>
-                <em>Email</em>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/threshlitmag"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  @threshlitmag
-                </a>
-                <em>Instagram</em>
-              </li>
-              <li>
-                <a
-                  href="https://www.facebook.com/p/Threshold-Literary-and-Arts-Magazine-100049047613023/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Threshold Literary and Arts Magazine
-                </a>
-                <em>Facebook</em>
-              </li>
-               <li>
-                <a href="#" onClick={(e) => e.preventDefault()}>
-                  7GV5-NS9W-SBDDC
-                </a>
-                <em>Schoology Group Code</em>
-              </li>
-            </ul>
-          </div>
-        </aside>
+        <div className="sidebar__box">
+          <h3>Elsewhere</h3>
+          <ul>
+            <li>
+              <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              <em>Email</em>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/threshlitmag"
+                target="_blank"
+                rel="noreferrer"
+              >
+                @threshlitmag
+              </a>
+              <em>Instagram</em>
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/p/Threshold-Literary-and-Arts-Magazine-100049047613023/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Threshold Literary and Arts Magazine
+              </a>
+              <em>Facebook</em>
+            </li>
+            <li>
+              <a href="#" onClick={(e) => e.preventDefault()}>
+                7GV5-NS9W-SBDDC
+              </a>
+              <em>Schoology Group Code</em>
+            </li>
+          </ul>
+        </div>
       </section>
     </div>
   );

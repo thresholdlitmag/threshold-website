@@ -85,7 +85,8 @@ export default function EDesign() {
       <span className="kicker">Learn the Platform</span>
       <h1 className="page-title">E-Design</h1>
       <p className="lede">
-        Step-by-step video tutorials on using our online design platform.
+        Step-by-step video tutorials for our online design platform — start
+        at the beginning, or jump straight to the part you need.
       </p>
 
       <hr className="rule-double" />

@@ -1,13 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import PlaceholderImage from "../components/PlaceholderImage";
 import WorkText from "../components/WorkText";
-import {
-  WORKS,
-  getWork,
-  isVisual,
-  resolveImageUrl,
-  typeLabel,
-} from "../data/works";
+import WorkVisual from "../components/WorkVisual";
+import { WORKS, getWork, isVisual, typeLabel } from "../data/works";
 
 export default function WorkPage() {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +36,7 @@ export default function WorkPage() {
       <header className="work-page__header">
         <h1 className="page-title">{work.title}</h1>
         <p className="byline">
-          By {work.author} &middot; {typeLabel(work)} &middot; {work.edition}
+          By {work.author} &middot; {typeLabel(work)} &middot; {work.volume}
         </p>
       </header>
 
@@ -50,24 +44,7 @@ export default function WorkPage() {
 
       <div className="work-page__content">
         {isVisual(work) ? (
-          work.imageUrl ? (
-            <figure className="figure">
-              <img
-                className="work-page__img"
-                src={resolveImageUrl(work.imageUrl)}
-                alt={`${work.title} — ${typeLabel(work)} by ${work.author}`}
-              />
-              <figcaption>
-                {work.title} &middot; {typeLabel(work)} &middot; {work.author}
-              </figcaption>
-            </figure>
-          ) : (
-            <PlaceholderImage
-              ratio="4 / 3"
-              framed
-              caption={`${work.title} — artwork coming soon`}
-            />
-          )
+          <WorkVisual work={work} caption className="work-page__img" />
         ) : work.fullText ? (
           <WorkText text={work.fullText} type={work.type} dropcap />
         ) : work.excerpt ? (
@@ -85,6 +62,12 @@ export default function WorkPage() {
           <p className="lede">Full text coming soon.</p>
         )}
       </div>
+
+      <p className="rights-notice">
+        &copy; {work.author}. Published in {work.volume} of{" "}
+        <i>Threshold</i>. Please don't repost or reproduce this work without
+        the creator's permission.
+      </p>
 
       <nav className="work-page__nav" aria-label="More works">
         {prev ? (
