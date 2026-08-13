@@ -19,11 +19,6 @@ export default function Contact() {
     <div className="page container">
       <span className="kicker">Get in Touch</span>
       <h1 className="page-title">Contact</h1>
-      <p className="lede">
-        Questions, ideas, or just want to say hello? Write to us — we read
-        everything that comes in.
-      </p>
-
       <hr className="rule-double" />
 
       <section className="contact-single">

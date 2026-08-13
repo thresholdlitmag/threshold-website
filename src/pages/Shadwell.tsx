@@ -6,25 +6,24 @@ export default function Shadwell() {
       <span className="kicker">The Threshold Competition</span>
       <h1 className="page-title">Shadwell</h1>
       <p className="lede">
-        Our annual writing and art competition, open to every student writer
-        and artist in the school.
+        Annual writing competition, judged by outside judges. 
       </p>
 
       <hr className="rule-double" />
 
       <section className="prose prose--centered">
         <p className="dropcap">
-          Shadwell is <i>Threshold</i>'s annual writing and art competition.
-          Each cycle we announce a theme, and students across the school
-          respond with poems, stories, and artwork — the winning entries earn
-          a featured place in the magazine. Every entry is judged anonymously
-          by our editorial board, so each one is read on its own merits.
+          Shadwell is <i>Threshold</i>'s annual writing and arts competition.
+          Historically, Shadwell has only covered writing, but this year we are expanding
+          to also include art! Each year, Shadwell has a theme, which submissions 
+          should align with. 
         </p>
         <p>
-          Shadwell entries come in through the same form as everything else we
-          publish — just choose Shadwell when the form asks what you're
-          submitting. This year's theme and deadline will be announced here
-          soon.
+          You can submit entries to Shadwell the same way they would be submitted 
+          to <i>Threshold</i> - through the submission form. Shadwell is judged by 
+          outisde judges, generally published authors. Winning entries are included 
+          in <i>Threshold</i>, and winners also receive a pie! This year's theme will
+          be announced soon. 
         </p>
       </section>
 
@@ -35,8 +34,7 @@ export default function Shadwell() {
           <span className="kicker">Ready?</span>
           <h2>Enter the Shadwell competition</h2>
           <p>
-            Shadwell is part of our submissions — head to the Submit page to
-            send in your entry.
+            Head to the submissions page to submit your work for Shadwell.
           </p>
         </div>
         <div className="callout__action">

@@ -15,40 +15,28 @@ interface Tutorial {
 
 const TUTORIALS: Tutorial[] = [
   {
-    title: "Getting Started",
+    title: "Intro to E-Design",
     description:
-      "Creating your account and finding your way around the platform.",
+      "How to navigate around E-Design, and basic features.",
     duration: "5 min",
   },
   {
-    title: "Setting Up Your First Project",
+    title: "Formatting text",
     description:
-      "Starting a new design from a blank page or a template.",
-    duration: "8 min",
+      "How to change fonts and align text.",
+    duration: "2 min",
   },
   {
-    title: "Working With Text & Type",
+    title: "Prose Pieces",
     description:
-      "Fonts, sizing, and laying out text like a magazine spread.",
-    duration: "6 min",
+      "How to format prose into columns and other tips.",
+    duration: "2 min",
   },
   {
-    title: "Adding & Editing Images",
+    title: "Importing images",
     description:
-      "Uploading artwork, cropping, and placing images on the page.",
-    duration: "7 min",
-  },
-  {
-    title: "Collaborating With the Team",
-    description:
-      "Sharing your work, leaving comments, and editing together.",
-    duration: "4 min",
-  },
-  {
-    title: "Exporting & Publishing",
-    description:
-      "Turning your finished design into a print-ready or web-ready file.",
-    duration: "5 min",
+      "Best practices for uploading artwork from Canva or Adobe.",
+    duration: "2 min",
   },
 ];
 
@@ -85,15 +73,13 @@ export default function EDesign() {
       <span className="kicker">Learn the Platform</span>
       <h1 className="page-title">E-Design</h1>
       <p className="lede">
-        Step-by-step video tutorials for our online design platform — start
-        at the beginning, or jump straight to the part you need.
+        Video tutorials to help you use E-Deisgn for spread design. 
       </p>
 
       <hr className="rule-double" />
 
       <div className="section-head">
         <h2>Tutorials</h2>
-        <span>Watch in order, or jump to what you need</span>
       </div>
       <section className="grid-3">
         {TUTORIALS.map((tutorial) => (

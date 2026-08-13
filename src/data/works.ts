@@ -15,6 +15,27 @@
  *   fullText  — the complete piece, shown on the work's own page.
  *               Use a blank line between stanzas/paragraphs; for poetry,
  *               plain line breaks within a stanza are preserved.
+ *
+ *               Formatting tags (these also work in `excerpt`):
+ *
+ *                 [i]…[/i]              italic
+ *                 [b]…[/b]              bold
+ *                 [center]…[/center]    centre a line
+ *                 [right]…[/right]      set a line to the right
+ *                 [left]…[/left]        back to the left
+ *
+ *               Put an alignment tag alone on its own line to align
+ *               every line until it is closed:
+ *
+ *                 [right]
+ *                 these three lines
+ *                 all sit to the
+ *                 right of the page
+ *                 [/right]
+ *
+ *               Spaces at the start of a line are kept, so a poem can be
+ *               indented as it is on paper. Anything that isn't a tag is
+ *               printed as written.
  *   imageUrl  — art only. Either:
  *                 • a file committed to this repo's public/art/ folder,
  *                   referenced as "/art/filename.jpg"  (recommended), or

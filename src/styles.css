@@ -102,17 +102,26 @@ html {
   against the viewport as the page scrolls rather than sliding under the
   text.
 */
+/*
+  The wash and the grain are named here rather than written inline,
+  because the sticky nav has to paint the identical thing to disappear
+  against the page — see `.nav`. Two hand-copied gradients would drift
+  apart the first time either was adjusted.
+*/
+:root {
+  --page-wash: linear-gradient(
+    180deg,
+    rgba(210, 213, 243, 0.3) 0%,
+    rgba(244, 243, 237, 0) 38%,
+    rgba(244, 243, 237, 0) 62%,
+    rgba(232, 213, 232, 0.26) 100%
+  );
+  --page-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
 body {
   background-color: var(--creme);
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(210, 213, 243, 0.3) 0%,
-      rgba(244, 243, 237, 0) 38%,
-      rgba(244, 243, 237, 0) 62%,
-      rgba(232, 213, 232, 0.26) 100%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+  background-image: var(--page-wash), var(--page-grain);
   background-attachment: fixed, fixed;
   color: var(--navy);
   font-family: var(--font-body);
@@ -347,8 +356,12 @@ main:focus {
   sibling of <header> instead, which makes the page its containing block
   and gives it the whole scroll to travel.
 
-  Once pinned it condenses: less padding, a ground of its own so text
-  doesn't run underneath it, and a shadow to lift it off the page.
+  Once pinned it only condenses — the padding tightens and nothing else
+  changes. It carried a blurred translucent ground and a drop shadow at
+  first, which made it read as a separate slab bolted over the top of the
+  page. It is meant to be the same sheet of paper as everything else, so
+  it paints the page's own wash and grain and is bounded top and bottom
+  by the same double rule.
 */
 .nav {
   position: sticky;
@@ -356,23 +369,27 @@ main:focus {
   /* Above the page, below the quick-nav (45), drawer backdrop (50) and
      drawer (60). */
   z-index: 40;
-  border-top: 3px double var(--navy);
-  border-bottom: 3px double var(--navy);
-  background: var(--creme);
-  transition:
-    padding var(--dur-base) var(--ease-swift),
-    box-shadow var(--dur-base) var(--ease-swift),
-    background var(--dur-base) var(--ease-swift);
-}
+  /*
+    The rules live on `.nav__bar` below, not here.
 
-.nav--stuck {
-  /* Slightly translucent, with a blur behind — the ruled paper shows
-     through as a tint rather than the bar reading as a separate slab. */
-  background: rgba(244, 243, 237, 0.92);
-  backdrop-filter: blur(9px) saturate(1.4);
-  -webkit-backdrop-filter: blur(9px) saturate(1.4);
-  border-top-color: transparent;
-  box-shadow: 0 6px 20px -14px rgba(18, 20, 52, 0.55);
+    They have to stop at the content column like every other rule on the
+    page, but the *background* still has to run the full width of the
+    window — otherwise content scrolling past would show through either
+    side of the pinned bar. So the two jobs are split: this element is
+    the full-bleed ground, and the container inside it carries the lines.
+  */
+  /*
+    Not a flat `var(--creme)` fill. The page carries a lavender-to-pink
+    wash that is fixed to the viewport, strongest at exactly the height
+    this bar pins to — so a flat creme bar would show as a pale band
+    across the top. Repeating the body's own background, fixed the same
+    way, lines the two up pixel for pixel and the bar vanishes into the
+    page while staying fully opaque.
+  */
+  background-color: var(--creme);
+  background-image: var(--page-wash), var(--page-grain);
+  background-attachment: fixed, fixed;
+  transition: padding var(--dur-base) var(--ease-swift);
 }
 
 .nav__list {
@@ -412,10 +429,20 @@ main:focus {
   border-bottom-color: var(--navy);
 }
 
+/*
+  The bar's rules, stopping at the content column so they line up with
+  the section dividers and the masthead rather than bleeding to the edges
+  of the window. `.nav__bar` is a `.container`, so it is already the same
+  width as everything else on the page.
+*/
 .nav__bar {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* The same ink as the date and volume line in the top bar, rather than
+     full-strength navy — the rules are furniture, not content. */
+  border-top: 1px solid var(--ink-faint);
+  border-bottom: 1px solid var(--ink-faint);
 }
 
 .nav__toggle {
@@ -1197,7 +1224,15 @@ main:focus {
   margin-right: auto;
 }
 
-.callout--center a {
+/*
+  Links in call-out body copy, on any variant.
+
+  This used to be scoped to `.callout--center`, which meant the Submit
+  page's "write to us" address lost its accent the moment that page moved
+  to the standard two-column call-out. Scoped to `p` so it can never
+  catch a `.btn`, which carries its own colours.
+*/
+.callout p a {
   color: var(--lavender);
 }
 
@@ -1477,6 +1512,15 @@ main:focus {
   margin: 0 0 var(--space-lg);
 }
 
+/* The two routes off the 404 page, side by side. */
+.notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 var(--space-xl);
+}
+
 /* Shown when a filter combination matches nothing. */
 .empty-state {
   display: flex;
@@ -1666,6 +1710,39 @@ main:focus {
 
 .poem__line {
   display: block;
+  /*
+    Preserves the spaces a poet typed at the start of a line, so a poem
+    can be indented on the page the way it is on paper — while still
+    wrapping a line too long for the column instead of overflowing it.
+  */
+  white-space: pre-wrap;
+}
+
+/* Set by the [center] / [right] tags — see lib/textFormat. */
+.poem__line--center {
+  text-align: center;
+}
+
+.poem__line--right {
+  text-align: right;
+}
+
+/* The same, for prose paragraphs. */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* A centred or right-set paragraph shouldn't also carry the newspaper
+   first-line indent — the two read as a mistake together. */
+.prose p.text-center,
+.prose p.text-right,
+.two-col p.text-center,
+.two-col p.text-right {
+  text-indent: 0;
 }
 
 /* Ownership line under each published piece. */
@@ -2700,10 +2777,36 @@ main:focus {
   rotate: -0.6deg;
 }
 
-/* Centred pages keep their title centred. */
+/*
+  Centred pages keep their title centred.
+
+  The `[style*="center"]` selector matches a page whose inline style
+  happens to contain the string "center" — it works, but only by
+  coincidence, and silently stops working the moment someone reformats
+  the style attribute. `.page--centered` is the same thing said out loud;
+  the attribute selector stays for the pages still relying on it.
+*/
+.page--centered,
+.page[style*="center"] {
+  text-align: center;
+}
+
+.page--centered .page-title,
 .page[style*="center"] .page-title,
 .work-page__header .page-title {
   margin-inline: auto;
+}
+
+/* Headings and body copy inside a centred page still read left-aligned —
+   only the page furniture is centred. */
+.page--centered .kicker,
+.page--centered .lede {
+  margin-inline: auto;
+}
+
+.page--centered .section-head,
+.page--centered .card {
+  text-align: left;
 }
 
 .work-page__header {

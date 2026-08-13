@@ -35,9 +35,20 @@
       content="Poetry, prose, visual art, and music by student writers and artists."
     />
 
-    <!-- Placeholder pressed-flower icon; swap public/favicon.svg for the
-         real logo when there is one. -->
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <!--
+      The magazine's logo, resized from the 10009px master in public/.
+      A browser picks the closest size and scales down, so serving 32 and
+      192 separately keeps the tab icon crisp without making every
+      visitor download a print-resolution PNG.
+    -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./favicon-192.png"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

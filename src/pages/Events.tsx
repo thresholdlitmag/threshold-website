@@ -25,8 +25,7 @@ export default function Events() {
       <span className="kicker">Mark Your Calendars</span>
       <h1 className="page-title">Events</h1>
       <p className="lede">
-        Meetings, deadlines, and everything else happening at Threshold this
-        year — all in one place.
+        Want to know what's happening with <i>Threshold</i>? Check out our upcoming events, and follow us on social media for updates!
       </p>
 
       <hr className="rule-double" />

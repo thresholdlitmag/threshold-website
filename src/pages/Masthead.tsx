@@ -17,8 +17,7 @@ export default function Masthead() {
       <span className="kicker">The People Behind the Pages</span>
       <h1 className="page-title">Masthead</h1>
       <p className="lede">
-        Meet the student directors who read, edit, design, and build each
-        volume of <i>Threshold</i>.
+        Meet the directors of <i>Threshold</i>.
       </p>
 
       <hr className="rule-double" />

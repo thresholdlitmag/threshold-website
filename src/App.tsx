@@ -9,6 +9,7 @@ import Events from "./pages/Events";
 import Submit from "./pages/Submit";
 import Masthead from "./pages/Masthead";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -26,6 +27,9 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           {/* Old URL kept alive for anyone with a saved link */}
           <Route path="/issues" element={<Navigate to="/gallery" replace />} />
+          {/* Anything else. Inside the layout route, so a wrong address
+              still arrives with the masthead, nav and footer around it. */}
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

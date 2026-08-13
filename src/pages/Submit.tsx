@@ -2,6 +2,7 @@ import FormButton from "../components/FormButton";
 import WorkVisual from "../components/WorkVisual";
 import { CONTACT_EMAIL } from "../data/site";
 import { getWork } from "../data/works";
+import Formatted from "../lib/textFormat";
 
 /**
  * What we publish. Each genre can point at a real published piece
@@ -15,37 +16,37 @@ const GENRES: {
 }[] = [
   {
     title: "Poetry",
-    body: "Free verse, formal verse, prose poems — if it sings, we want to read it.",
+    body: "All types of poetry are welcome.",
     sampleId: "w11",
   },
   {
     title: "Prose",
-    body: "Fiction, flash fiction, and creative nonfiction, from a single page to a full story.",
+    body: "Prose includes writing that isn't poetry.",
     sampleId: "w12",
   },
   {
     title: "Visual Art",
-    body: "Photography, painting, drawing, and digital art from student artists in every medium.",
+    body: "All types of artwork.",
     sampleId: "w3",
   },
   {
     title: "Music",
-    body: "Original composition and songwriting — send us the score or a recording, and we'll publish it alongside the writing and art.",
+    body: "Feel free to send in a music score!",
   },
 ];
 
 const GUIDELINES = [
   {
-    title: "How Much to Send",
-    body: "Up to 5 poems, prose to 3,000 words, or up to 5 pieces of visual art per submission. Music and other creative work are welcome too.",
+    title: "Formatting",
+    body: "It really doesn't matter, just watch the length for prose pieces.",
   },
   {
-    title: "How to Format It",
-    body: "Send documents as .docx or .pdf, and images as high-resolution .jpg or .png files. Put your name in the file name so nothing gets lost.",
+    title: "Review",
+    body: "We review pieces at our weekly meetings. Feel free to pull up!",
   },
   {
-    title: "What Happens Next",
-    body: "Our editors read every piece anonymously and respond within a few weeks. Accepted work appears in the next volume of Threshold.",
+    title: "Timeline",
+    body: "We'll get back to you sometime around January (hopefully)."
   },
 ];
 
@@ -55,8 +56,7 @@ export default function Submit() {
       <span className="kicker">Submissions</span>
       <h1 className="page-title">Submit Your Work</h1>
       <p className="lede">
-        Poetry, prose, visual art, or music — whatever you have been making,
-        we would love to read it, look at it, and listen to it.
+        We take submission for poetry, prose, art, and music if you have it. 
       </p>
 
       <hr className="rule-double" />
@@ -79,7 +79,11 @@ export default function Submit() {
                       {sample.excerpt
                         ?.split(" / ")
                         .slice(0, 4)
-                        .map((line, i) => <p key={i}>{line}</p>)}
+                        .map((line, i) => (
+                          <p key={i}>
+                            <Formatted text={line} />
+                          </p>
+                        ))}
                     </blockquote>
                   )}
                   <p className="genre-card__credit">
@@ -112,18 +116,19 @@ export default function Submit() {
         ))}
       </section>
 
-      <section className="callout callout--center">
+      {/* The same two-column call-out the Home and Shadwell pages use —
+          text on the left, button on the right. */}
+      <section className="callout">
         <div>
-          <span className="kicker">Ready When You Are</span>
+          <span className="kicker">Submit here!</span>
           <h2>Send us your work</h2>
           <p>
-            Submissions go through our Google Form — it takes a couple of
-            minutes, it's free, and it always will be. Questions? Write to{" "}
+            Submissions go through our Google Form. Questions? Write to{" "}
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
           </p>
         </div>
         <div className="callout__action">
-          <FormButton>Open the Submission Form</FormButton>
+          <FormButton>Submission Form</FormButton>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { REVEAL_REFRESH_EVENT } from "../components/ScrollReveal";
 import WorkVisual from "../components/WorkVisual";
+import Formatted from "../lib/textFormat";
 import {
   VOLUMES,
   WORKS,
@@ -60,8 +61,7 @@ export default function Gallery() {
       <span className="kicker">Writing &amp; Art from Our Pages</span>
       <h1 className="page-title">Gallery</h1>
       <p className="lede">
-        Every published work from every volume of Threshold, in one
-        collection.
+        Works from previous volumes of <i>Threshold</i>
       </p>
 
       <hr className="rule-double" />
@@ -120,7 +120,9 @@ export default function Gallery() {
               ) : (
                 <blockquote className="work__text">
                   {work.excerpt?.split(" / ").map((line, i) => (
-                    <p key={i}>{line}</p>
+                    <p key={i}>
+                      <Formatted text={line} />
+                    </p>
                   ))}
                 </blockquote>
               )}

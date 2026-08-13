@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import WorkText from "../components/WorkText";
 import WorkVisual from "../components/WorkVisual";
 import { homeSelection, isVisual, typeLabel } from "../data/works";
+import Formatted from "../lib/textFormat";
 
 export default function Home() {
   // Random picks, fixed for this visit (useMemo keeps them stable
@@ -75,11 +76,6 @@ export default function Home() {
               This year our theme is [Theme], and we meet Wednesday 8B and Friday 8A in Mrs.
               Procelli's room, Room XX. Come join us, we are always looking for new members!
             </p>
-            <p>
-              Each year, our student editors gather poetry, prose, art, and
-              music from across the school and shape them into a new volume —
-              now in our thirty-ninth.
-            </p>
           </div>
           <p style={{ marginTop: "1.6rem" }}>
             <Link className="btn btn--ghost" to="/gallery">
@@ -122,7 +118,9 @@ export default function Home() {
               ) : (
                 <blockquote className="work__text">
                   {piece.excerpt?.split(" / ").map((line, i) => (
-                    <p key={i}>{line}</p>
+                    <p key={i}>
+                      <Formatted text={line} />
+                    </p>
                   ))}
                 </blockquote>
               )}
