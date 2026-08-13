@@ -1,124 +1,141 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Botanical, { BotanicalKind, BOTANICAL_COLORS } from "./Botanical";
 
 /**
- * Pressed botanicals scattered behind the whole site, like specimens
- * taped onto the page under the writing.
+ * Pressed botanicals laid down the whole length of the page, like
+ * specimens taped into a scrapbook.
  *
- * Two things keep this decorative rather than distracting:
+ * They are positioned in the document, not pinned to the viewport, so
+ * they scroll away with the writing and new ones come up from below —
+ * the way anything else printed on the page behaves. An earlier version
+ * fixed them to the screen and cross-faded between arrangements, which
+ * made flowers appear and vanish in place while never actually going
+ * anywhere.
  *
- *  - Everything sits near the edges. The middle of the page is where the
- *    text is, and flowers behind a paragraph make it harder to read.
- *  - The layers drift at different rates as you scroll, so the page has
- *    some depth instead of a flat pattern stuck to the glass.
+ * Everything sits in the left and right margins. The middle of the page
+ * is where the text is, and a flower behind a paragraph just makes it
+ * harder to read.
  */
 
-interface Specimen {
-  kind: BotanicalKind;
-  /** Percent of viewport. */
-  x: number;
-  y: number;
-  size: number;
-  rotate: number;
-  opacity: number;
-  color: string;
-  /** 0 = furthest back and slowest, 2 = nearest and quickest. */
-  depth: 0 | 1 | 2;
-  /** Seconds, so neighbouring specimens don't sway in unison. */
-  delay: number;
-}
-
-const C = BOTANICAL_COLORS;
-
-const SPECIMENS: Specimen[] = [
-  // ---- left margin ----
-  { kind: "fern", x: 3, y: 12, size: 128, rotate: -18, opacity: 0.15, color: C[5], depth: 0, delay: 0 },
-  { kind: "sprig", x: 8, y: 42, size: 84, rotate: 24, opacity: 0.2, color: C[2], depth: 1, delay: 1.6 },
-  { kind: "flower", x: 2, y: 68, size: 96, rotate: -8, opacity: 0.16, color: C[1], depth: 0, delay: 3.1 },
-  { kind: "leaf", x: 11, y: 88, size: 62, rotate: 44, opacity: 0.22, color: C[5], depth: 2, delay: 0.8 },
-  { kind: "bud", x: 6, y: 26, size: 54, rotate: 12, opacity: 0.19, color: C[3], depth: 2, delay: 2.4 },
-
-  // ---- right margin ----
-  { kind: "daisy", x: 93, y: 8, size: 104, rotate: 16, opacity: 0.17, color: C[0], depth: 1, delay: 0.4 },
-  { kind: "fern", x: 96, y: 36, size: 138, rotate: 28, opacity: 0.13, color: C[5], depth: 0, delay: 2.9 },
-  { kind: "petal", x: 88, y: 56, size: 58, rotate: -36, opacity: 0.24, color: C[1], depth: 2, delay: 1.2 },
-  { kind: "sprig", x: 95, y: 74, size: 92, rotate: -22, opacity: 0.18, color: C[4], depth: 1, delay: 3.6 },
-  { kind: "flower", x: 90, y: 94, size: 76, rotate: 33, opacity: 0.2, color: C[2], depth: 2, delay: 2 },
-
-  // ---- a few drifting through the upper and lower gutters ----
-  { kind: "leaf", x: 32, y: 3, size: 56, rotate: -52, opacity: 0.14, color: C[5], depth: 0, delay: 1.9 },
-  { kind: "petal", x: 68, y: 2, size: 46, rotate: 40, opacity: 0.16, color: C[3], depth: 1, delay: 3.3 },
-  { kind: "daisy", x: 26, y: 97, size: 70, rotate: -14, opacity: 0.15, color: C[1], depth: 1, delay: 0.6 },
-  { kind: "bud", x: 60, y: 99, size: 50, rotate: 20, opacity: 0.17, color: C[4], depth: 2, delay: 2.7 },
+const KINDS: BotanicalKind[] = [
+  "fern",
+  "sprig",
+  "flower",
+  "daisy",
+  "leaf",
+  "bud",
+  "petal",
 ];
 
-/** How far each layer travels against the scroll. */
-const DEPTH_FACTOR = [0.04, 0.09, 0.16];
+/** Roughly one specimen per this many pixels of page. */
+const SPACING = 460;
+const MIN_SPECIMENS = 6;
+const MAX_SPECIMENS = 90;
+
+/**
+ * Hash-based pseudo-random, so a given specimen always comes out the
+ * same. Math.random() here would reshuffle the whole page on every
+ * re-render, and the flowers would visibly jump.
+ */
+function rand(seed: number): number {
+  const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+function pageHeight(): number {
+  return Math.max(
+    document.documentElement.scrollHeight,
+    document.body.scrollHeight,
+    window.innerHeight,
+  );
+}
 
 export default function PressedBackdrop() {
-  const layerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const { pathname } = useLocation();
+  const [height, setHeight] = useState(0);
 
+  // Re-measure on navigation, on resize, and whenever the page itself
+  // grows or shrinks — images finishing, a filter changing the gallery.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let frame = 0;
-
-    function apply() {
-      frame = 0;
-      const y = window.scrollY;
-      layerRefs.current.forEach((layer, depth) => {
-        if (!layer) return;
-        // Negative: the layer creeps upward as the page moves down, just
-        // more slowly than the content itself.
-        layer.style.transform = `translate3d(0, ${-y * DEPTH_FACTOR[depth]}px, 0)`;
+    function measure() {
+      setHeight((current) => {
+        const next = pageHeight();
+        // Ignore small changes so we're not re-rendering constantly.
+        return Math.abs(next - current) > 120 ? next : current;
       });
     }
 
-    function onScroll() {
-      // One update per painted frame, no matter how many scroll events fire.
-      if (!frame) frame = window.requestAnimationFrame(apply);
-    }
+    measure();
+    window.addEventListener("resize", measure);
 
-    apply();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const observer = new ResizeObserver(measure);
+    observer.observe(document.body);
+
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", measure);
+      observer.disconnect();
     };
-  }, []);
+  }, [pathname]);
+
+  if (height === 0) return null;
+
+  const count = Math.min(
+    MAX_SPECIMENS,
+    Math.max(MIN_SPECIMENS, Math.round(height / SPACING)),
+  );
 
   return (
-    <div className="pressed-backdrop" aria-hidden="true">
-      {[0, 1, 2].map((depth) => (
-        <div
-          className="pressed-backdrop__layer"
-          key={depth}
-          ref={(node) => {
-            layerRefs.current[depth] = node;
-          }}
-        >
-          {SPECIMENS.filter((s) => s.depth === depth).map((s, i) => (
-            <span
-              className="pressed-specimen"
-              key={`${depth}-${i}`}
-              style={{
-                left: `${s.x}%`,
-                top: `${s.y}%`,
-                opacity: s.opacity,
-                animationDelay: `${s.delay}s`,
-                ["--specimen-rotate" as string]: `${s.rotate}deg`,
-              }}
-            >
-              <Botanical
-                kind={s.kind}
-                color={s.color}
-                size={s.size}
-                stroke={0.8}
-              />
-            </span>
-          ))}
-        </div>
-      ))}
+    <div
+      className="pressed-backdrop"
+      style={{ height: `${height}px` }}
+      aria-hidden="true"
+    >
+      {Array.from({ length: count }, (_, i) => {
+        // A fresh seed per slot, so neighbours don't share values.
+        const r1 = rand(i + 1);
+        const r2 = rand(i + 101);
+        const r3 = rand(i + 211);
+        const r4 = rand(i + 307);
+        const r5 = rand(i + 401);
+
+        // Alternate sides, keeping clear of the text column.
+        const onLeft = i % 2 === 0;
+        const inset = 1.5 + r1 * 9;
+        const x = onLeft ? inset : 100 - inset;
+
+        // Spread evenly down the page, then jitter so the spacing
+        // doesn't read as a ruler.
+        const band = height / count;
+        const y = band * i + band * (0.15 + r2 * 0.7);
+
+        const kind = KINDS[Math.floor(r3 * KINDS.length) % KINDS.length];
+        const color =
+          BOTANICAL_COLORS[
+            Math.floor(r4 * BOTANICAL_COLORS.length) % BOTANICAL_COLORS.length
+          ];
+
+        return (
+          <span
+            className="pressed-specimen"
+            key={i}
+            style={{
+              left: `${x}%`,
+              top: `${Math.round(y)}px`,
+              opacity: 0.13 + r5 * 0.11,
+              animationDelay: `${(r2 * 8).toFixed(2)}s`,
+              ["--specimen-rotate" as string]: `${(r4 * 80 - 40).toFixed(1)}deg`,
+            }}
+          >
+            <Botanical
+              kind={kind}
+              color={color}
+              size={Math.round(52 + r1 * 86)}
+              stroke={0.8}
+            />
+          </span>
+        );
+      })}
     </div>
   );
 }

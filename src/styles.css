@@ -17,14 +17,17 @@
   --font-display: "Playfair Display", "Georgia", serif;
   --font-body: "EB Garamond", "Georgia", serif;
   --font-ui: "Inter", "Helvetica Neue", sans-serif;
-  /* Handwriting, for the things someone would have written in by hand:
-     captions, annotations, section asides. Never for body copy. */
-  --font-hand: "Caveat", "Segoe Script", cursive;
+  /* Accent face for annotations — captions, kickers, section asides.
+     Set in the body serif, italic, so it reads as an aside next to the
+     display face rather than as another voice entirely. */
+  --font-accent: "EB Garamond", "Georgia", serif;
 
   /* Paper the pieces are mounted on — a shade warmer than the page. */
   --paper: #fbfaf4;
-  --tape: rgba(210, 213, 243, 0.55);
-  --tape-edge: rgba(18, 20, 52, 0.16);
+  /* Tape reads best when you half-notice it. Anything stronger and the
+     strips start competing with the work they're holding down. */
+  --tape: rgba(210, 213, 243, 0.32);
+  --tape-edge: rgba(18, 20, 52, 0.09);
 }
 
 * {
@@ -1587,9 +1590,16 @@ a {
   Specimens mounted behind the page. z-index -1 puts them above the body
   background but under everything else, so no content needs restacking.
 */
+/*
+  Absolute, not fixed: the specimens belong to the document, so they
+  scroll away with the page instead of hanging in front of it. Its height
+  is set from the measured page height in JS.
+*/
 .pressed-backdrop {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
@@ -1610,12 +1620,6 @@ a {
   .pressed-backdrop {
     opacity: 0.35;
   }
-}
-
-.pressed-backdrop__layer {
-  position: absolute;
-  inset: 0;
-  will-change: transform;
 }
 
 .pressed-specimen {
@@ -1827,11 +1831,37 @@ a {
 @keyframes reveal-settle {
   from {
     opacity: 0;
-    transform: translateY(24px) scale(0.982);
+    transform: translateY(18px) scale(0.988);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/*
+  Paragraphs get a lighter, quicker version. A body of text rising the
+  full distance one line at a time reads as sluggish — the words should
+  just catch up with you.
+*/
+.prose > p.reveal--in,
+.poem > p.reveal--in,
+.lede.reveal--in,
+.byline.reveal--in,
+.kicker.reveal--in,
+.form label.reveal--in {
+  animation: reveal-text 480ms cubic-bezier(0.16, 1, 0.3, 1)
+    var(--reveal-delay, 0ms) both;
+}
+
+@keyframes reveal-text {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -1873,10 +1903,9 @@ a {
 /* ---------- handwriting annotations ---------- */
 
 /*
-  Caveat has a small x-height, so it needs a size bump to read at the
-  same optical weight as the sans it replaces. These are the elements
-  someone would actually have written in by hand — labels, captions,
-  asides. Body copy and headlines stay set in type.
+  Annotations — labels, captions, asides. Setting them in the body serif
+  italic instead of tracked-out caps keeps the newspaper stiffness out of
+  the small text while staying in the magazine's own voice.
 */
 .kicker,
 .figure figcaption,
@@ -1886,15 +1915,16 @@ a {
 .art-plate__note,
 .mobilebar__label,
 .quicknav__label {
-  font-family: var(--font-hand);
+  font-family: var(--font-accent);
+  font-style: italic;
   text-transform: none;
-  letter-spacing: 0.01em;
-  font-weight: 600;
+  letter-spacing: 0.015em;
+  font-weight: 500;
 }
 
 .kicker {
-  font-size: 1.2rem;
-  color: var(--navy);
+  font-size: 1.02rem;
+  color: var(--ink-faint);
   gap: 0.55rem;
 }
 
@@ -1910,22 +1940,22 @@ a {
 .figure figcaption,
 .genre-card__credit,
 .art-plate__note {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   letter-spacing: 0.02em;
 }
 
 .section-head span {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .pullquote cite {
-  font-size: 1.15rem;
+  font-size: 1.02rem;
   letter-spacing: 0.02em;
 }
 
 .mobilebar__label,
 .quicknav__label {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   letter-spacing: 0.02em;
 }
 
@@ -2213,6 +2243,8 @@ a {
 .masthead {
   position: relative;
   margin-top: 1.1rem;
+  /* Room to breathe between the banner and the nav bar below it. */
+  margin-bottom: 2.6rem;
   padding: 2.7rem 1.5rem 1.9rem;
   background-color: var(--paper);
   /* Pressed sprigs tucked into the two bottom corners. */
@@ -2263,31 +2295,50 @@ a {
   background-size: 120px 7px;
 }
 
-/* ---------- page titles, swiped with a marker ---------- */
+/* ---------- page titles, as paper plaques ---------- */
 
 /*
-  fit-content so the swipe hugs the words instead of running the full
-  width of the column — a highlighter follows the text, not the margin.
+  The same treatment as the section labels, scaled up: a square-cut piece
+  of paper pinned slightly crooked, with a marker swipe underneath.
+  fit-content is what makes the plaque hug the title instead of running
+  the full width of the column.
 */
 .page-title {
   position: relative;
   isolation: isolate;
   width: fit-content;
   max-width: 100%;
+  /* Deep enough at the top that the tape lands on paper, not on the
+     letters — that overlap was what made these look wrong before. */
+  padding: 1.1rem 1.2rem 0.7rem;
+  background: var(--paper);
+  border: 1px solid rgba(18, 20, 52, 0.16);
+  border-radius: 2px;
+  rotate: -0.9deg;
+  box-shadow:
+    0 1px 0 rgba(18, 20, 52, 0.06),
+    3px 4px 0 -1px rgba(18, 20, 52, 0.14),
+    0 14px 28px -18px rgba(18, 20, 52, 0.4);
+  transition: rotate 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.page-title:hover {
+  rotate: 0deg;
+}
+
+/* The marker swipe stays, now sitting inside the plaque. */
 .page-title::after {
   content: "";
   position: absolute;
   z-index: -1;
-  left: -0.28em;
-  right: -0.28em;
-  bottom: 0.04em;
-  height: 0.36em;
+  left: 0.55rem;
+  right: 0.55rem;
+  bottom: 0.3rem;
+  height: 0.34em;
   background: var(--hand-swipe) no-repeat center;
   background-size: 100% 100%;
-  opacity: 0.85;
-  rotate: -0.7deg;
+  opacity: 0.8;
+  rotate: -0.6deg;
 }
 
 /* Centred pages keep their title centred. */
@@ -2312,33 +2363,34 @@ a {
 .section-head h2 {
   position: relative;
   background: var(--paper);
-  border: 1px solid var(--rule);
-  padding: 0.4rem 1rem 0.45rem;
+  border: 1px solid rgba(18, 20, 52, 0.16);
+  border-radius: 2px;
+  padding: 0.9rem 1rem 0.5rem;
   rotate: -1deg;
   letter-spacing: 0.05em;
-  box-shadow:
-    0 1px 0 rgba(18, 20, 52, 0.06),
-    2px 3px 0 -1px rgba(18, 20, 52, 0.14);
+  box-shadow: 0 2px 9px -5px rgba(18, 20, 52, 0.45);
   transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* A short tab of tape holding the label down at one corner. */
-.section-head h2::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: 12%;
-  width: 46px;
-  height: 17px;
-  rotate: -8deg;
-  background: var(--tape);
-  border-left: 1px dashed var(--tape-edge);
-  border-right: 1px dashed var(--tape-edge);
-  pointer-events: none;
 }
 
 .section-head:hover h2 {
   rotate: 0deg;
+}
+
+/* ---------- the blue boxes ---------- */
+
+/*
+  These went through a round of washes, uneven corners and tape, and all
+  of it made them worse — the colour is what gives the excerpts and the
+  artwork plates their weight against the cream page. Back to the solid
+  lavender fill and the hard navy rules they started with.
+
+  The `.card`/`.work`/`.sidebar__box` mounted-paper rule in the scrapbook
+  layer sets a paper background, so the sidebar box needs its lavender
+  stated again here to win on order.
+*/
+.sidebar__box {
+  background: var(--lavender-soft);
+  border: 1px solid var(--navy);
 }
 
 /* ---------- ruled dividers ---------- */
@@ -2350,31 +2402,117 @@ a {
   background-size: 120px 7px;
 }
 
-/* ---------- boxed labels ---------- */
+/* ---------- list labels, taped down ---------- */
 
 /*
-  "In This Volume", "Elsewhere", "Connect" — these are labels someone
-  would have written at the top of a list, so they're set in the hand
-  and ruled off with a drawn line rather than a printer's one.
+  "In This Volume", "Elsewhere", "Connect" — the same paper plaque as the
+  section heads, at label size.
 */
-/* `.footer h4` is a descendant selector and outranks a bare class, so the
-   footer label has to be qualified or it keeps the sans and the caps. */
 .sidebar__box h3,
-.footer h4.footer__connect-head {
-  font-family: var(--font-hand);
-  font-size: 1.35rem;
+.footer h4.footer__connect-head,
+.callout h2 {
+  position: relative;
+  /*
+    fit-content, not inline-block. Both shrink the plaque to its words,
+    but inline-block also makes the heading flow inline — which pulled
+    the call-out title onto the same line as the kicker above it.
+  */
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--font-display);
   font-weight: 700;
   text-transform: none;
   letter-spacing: 0.02em;
-  border-bottom: 0;
-  padding-bottom: 0.7rem;
-  background: var(--hand-rule) repeat-x left bottom;
-  background-size: 120px 7px;
+  background: var(--paper);
+  color: var(--navy);
+  border: 1px solid rgba(18, 20, 52, 0.16);
+  border-radius: 2px;
+  /* Top padding again clears the tape off the words. */
+  padding: 0.85rem 0.95rem 0.4rem;
+  rotate: -1.2deg;
+  box-shadow: 0 2px 8px -5px rgba(18, 20, 52, 0.45);
+  transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* On navy the ink line would disappear, so it's drawn in lavender. */
+.sidebar__box h3 {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
 .footer h4.footer__connect-head {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='7' viewBox='0 0 120 7'%3E%3Cpath d='M1 4 C16 1.6 28 5.6 44 3.4 C60 1.4 74 5.4 90 3.6 C102 2.2 111 4.6 119 3.2' fill='none' stroke='%23d2d5f3' stroke-width='1.3' stroke-linecap='round' opacity='0.75'/%3E%3C/svg%3E");
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+}
+
+.callout h2 {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  padding: 1rem 1.1rem 0.5rem;
+  margin: 0.9rem 0 1rem;
+  rotate: -1deg;
+}
+
+/* A centred call-out needs its shrink-wrapped plaque centred too. */
+.callout--center h2,
+.callout--center .kicker {
+  margin-inline: auto;
+}
+
+.sidebar__box:hover h3,
+.callout:hover h2,
+.footer:hover h4.footer__connect-head {
+  rotate: 0deg;
+}
+
+/* ---------- the tape holding every heading on ---------- */
+
+/*
+  One strip per heading, sitting mostly above the plaque. Only the bottom
+  few pixels cross onto the paper, and each plaque carries enough top
+  padding that the strip never reaches the letters — tape over the words
+  was what made these read as broken rather than pinned.
+*/
+.page-title::before,
+.section-head h2::before,
+.sidebar__box h3::before,
+.footer h4.footer__connect-head::before,
+.callout h2::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  translate: -50% 0;
+  width: 78px;
+  height: 21px;
+  rotate: -4deg;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  box-shadow: 0 1px 2px rgba(18, 20, 52, 0.08);
+  pointer-events: none;
+}
+
+/* Off-centre, so a column of headings isn't a column of identical tabs. */
+.section-head h2::before {
+  left: 22%;
+  rotate: 5deg;
+  width: 62px;
+}
+
+.sidebar__box h3::before,
+.footer h4.footer__connect-head::before {
+  top: -12px;
+  width: 54px;
+  height: 18px;
+  left: 30%;
+  rotate: -6deg;
+}
+
+/* Against navy the strip needs more body to be visible at all. */
+.footer h4.footer__connect-head::before,
+.callout h2::before {
+  background: rgba(210, 213, 243, 0.55);
+  border-left-color: rgba(18, 20, 52, 0.22);
+  border-right-color: rgba(18, 20, 52, 0.22);
 }
 
 .sidebar__box {
@@ -2488,6 +2626,11 @@ a {
   /* A full date plus the volume is wider than a phone; let it break. */
   .topbar span {
     white-space: normal;
+  }
+
+  /* Vertical space is scarcer on a phone than on a monitor. */
+  .masthead {
+    margin-bottom: 1.2rem;
   }
 
   /* Keep the date and volume; the rest is decoration at this width. */

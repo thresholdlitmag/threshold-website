@@ -51,16 +51,27 @@ interface Petal {
   color: string;
   size: number;
   opacity: number;
+  /** Background drift, as opposed to a celebration shower. */
+  ambient: boolean;
 }
 
 const BLOOM_MS = 1000;
 const SPARK_MS = 900;
 const SHOWER_COUNT = 30;
-/** Roughly how often a single ambient petal drifts past. */
-const AMBIENT_MIN_MS = 6000;
-const AMBIENT_MAX_MS = 11000;
+/** How often something drifts past in the background. */
+const AMBIENT_MIN_MS = 2600;
+const AMBIENT_MAX_MS = 5200;
+/** How many can be adrift at once, so a slow read doesn't fill the page. */
+const AMBIENT_MAX_ON_SCREEN = 5;
 
-const FALLING_KINDS: BotanicalKind[] = ["petal", "petal", "petal", "leaf"];
+/* Weighted: mostly leaves, with petals mixed through. */
+const FALLING_KINDS: BotanicalKind[] = [
+  "leaf",
+  "leaf",
+  "leaf",
+  "petal",
+  "petal",
+];
 
 function pick<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)];
@@ -87,8 +98,9 @@ function makePetal(ambient: boolean): Petal {
     spin: range(2200, 4200),
     tumble: range(1500, 3000),
     color: pick(BOTANICAL_COLORS),
-    size: ambient ? range(15, 24) : range(15, 30),
-    opacity: ambient ? range(0.3, 0.5) : range(0.75, 1),
+    size: ambient ? range(15, 26) : range(15, 30),
+    opacity: ambient ? range(0.28, 0.46) : range(0.75, 1),
+    ambient,
   };
 }
 
@@ -199,10 +211,16 @@ export default function FlowerEffects() {
 
     function drift() {
       if (stopped) return;
-      // Don't pile up petals in a tab nobody is looking at.
+      // Don't pile up leaves in a tab nobody is looking at.
       if (!document.hidden) {
         const petal = makePetal(true);
-        setPetals((current) => [...current, petal]);
+        setPetals((current) => {
+          // Cap what's adrift. Without this, sitting on a long poem for
+          // a few minutes would gradually fill the screen.
+          const ambient = current.filter((p) => p.ambient);
+          if (ambient.length >= AMBIENT_MAX_ON_SCREEN) return current;
+          return [...current, petal];
+        });
         // Tracked in the shared ref so unmounting clears it too.
         later(
           () => setPetals((c) => c.filter((p) => p.id !== petal.id)),

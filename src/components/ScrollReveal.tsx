@@ -12,7 +12,18 @@ import { useLocation } from "react-router-dom";
  * paints — so nothing flashes into view and then hides itself again.
  */
 
+/*
+  Down to the paragraph, so the writing arrives as you reach it rather
+  than sitting there waiting. Prose and poetry are targeted by their
+  child paragraphs — not the `.prose` wrapper — so a long piece comes in
+  stanza by stanza instead of all in one block.
+*/
 const TARGETS = [
+  ".kicker",
+  ".page-title",
+  ".lede",
+  ".hero__headline",
+  ".byline",
   ".section-head",
   ".card",
   ".work",
@@ -22,10 +33,11 @@ const TARGETS = [
   ".member",
   ".sidebar__box",
   ".embed-frame",
-  ".prose",
+  ".figure",
   ".rights-notice",
-  ".hero > article",
-  ".hero > .sidebar",
+  ".prose > p",
+  ".poem > p",
+  ".form label",
 ].join(", ");
 
 const REVEALED = "reveal--in";
