@@ -1809,13 +1809,25 @@ main:focus {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  width: min(1400px, 94vw);
+  width: min(1240px, 86vw);
   aspect-ratio: 16 / 9;
   max-height: 720px;
 }
 
 .embed-frame--social {
   height: 520px;
+}
+
+/*
+  Instagram scales its post to whatever width it's given, so in a wide
+  column the photo balloons. Capping it near the Facebook box keeps the
+  two side by side looking like a pair. 340px is just above Instagram's
+  326px minimum embed width.
+*/
+.embed-frame--instagram {
+  max-width: 340px;
+  height: 560px;
+  margin-inline: auto;
 }
 
 /* Matches the width Facebook renders its timeline at, so nothing clips. */

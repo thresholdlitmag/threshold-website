@@ -73,8 +73,14 @@ export default function Home() {
           <div className="prose">
             <p>
               <i>Threshold</i> is Thomas Jefferson High School's literary and arts magazine.
-              This year our theme is [Theme], and we meet Wednesday 8B and Friday 8A in Mrs.
-              Procelli's room, Room XX. Come join us, we are always looking for new members!
+              This year our theme is Seasons! Some words to implore creativity if you're stuck are cyclic, renewal, zenith, departure, and frosty; 
+              however, this theme is not meant to be restrictive and pieces submitted to the general magazine do not have to comform to it. Our theme 
+              informs how we structure the magazine. 
+            </p>
+            <p>
+              We meet twice a week on Wednesday 8B and Friday 8A in Mrs. Porcelli's room, Room 255. 
+              During meetings, we run writing and art workshops, discuss submitted pieces, and bring the magazine to life!
+              You should come join us, we are always looking for new members!
             </p>
           </div>
           <p style={{ marginTop: "1.6rem" }}>

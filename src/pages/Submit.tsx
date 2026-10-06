@@ -21,7 +21,7 @@ const GENRES: {
   },
   {
     title: "Prose",
-    body: "Prose includes writing that isn't poetry.",
+    body: "Prose includes writing that isn't poetry, so basically anything. This can include normal prose, comics, diary entries, graphic novels, commentaries, etc.",
     sampleId: "w12",
   },
   {
@@ -31,8 +31,12 @@ const GENRES: {
   },
   {
     title: "Music",
-    body: "Feel free to send in a music score!",
+    body: "Feel free to send in a music score and accompanying recording that you created! We especially encourage you to submit in this category if you're a musician!",
   },
+  {
+    title: "Other creative medium",
+    body: "Seriously, we take anything, and if it doesn't fall into a category listed above, don't worry-that makes your piece even more intriguing."
+  }
 ];
 
 const GUIDELINES = [
@@ -42,7 +46,11 @@ const GUIDELINES = [
   },
   {
     title: "Review",
-    body: "We review pieces at our weekly meetings. Feel free to pull up!",
+    body: "We review pieces at our weekly meetings once the submissions start flowing in. Feel free to pull up!",
+  },
+  {
+    title: "Deadline!!",
+    body: "All pieces are due November 30th!! (Don't be late, you'll make us sad)"
   },
   {
     title: "Timeline",
@@ -56,7 +64,7 @@ export default function Submit() {
       <span className="kicker">Submissions</span>
       <h1 className="page-title">Submit Your Work</h1>
       <p className="lede">
-        We take submission for poetry, prose, art, and music if you have it. 
+        We take submission for poetry, prose, art, and music. If you create it, we want to see it! 
       </p>
 
       <hr className="rule-double" />
@@ -123,7 +131,7 @@ export default function Submit() {
           <span className="kicker">Submit here!</span>
           <h2>Send us your work</h2>
           <p>
-            Submissions go through our Google Form. Questions? Write to{" "}
+            Submissions go through our Google Form. Questions? Email us at{" "}
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
           </p>
         </div>

@@ -80,7 +80,7 @@ export default function Events() {
           </p>
           {INSTAGRAM_POSTS.length > 0 ? (
             INSTAGRAM_POSTS.map((post) => (
-              <div className="embed-frame embed-frame--social" key={post}>
+              <div className="embed-frame embed-frame--social embed-frame--instagram" key={post}>
                 <iframe
                   src={instagramEmbedSrc(post)}
                   title="Threshold on Instagram"
