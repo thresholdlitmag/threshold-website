@@ -20,7 +20,7 @@
  * shown as "coming soon" and cannot be clicked — so nobody lands on a
  * broken link before the form is ready.
  */
-export const SUBMISSION_FORM_URL = "tinyurl.com/threshold2627";
+export const SUBMISSION_FORM_URL = "https://tinyurl.com/threshold2627";
 
 /** True once a real link has been pasted in above. */
 export const submissionFormReady =
