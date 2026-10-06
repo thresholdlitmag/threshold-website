@@ -16,7 +16,7 @@ const GENRES: {
 }[] = [
   {
     title: "Poetry",
-    body: "All types of poetry are welcome.",
+    body: "All types of poetry are welcome. This includes free verse, odes, scientific poetry. We've had quite a few workshops on poetry, and any piece you wrote there could be submitted!",
     sampleId: "w11",
   },
   {
@@ -26,8 +26,12 @@ const GENRES: {
   },
   {
     title: "Visual Art",
-    body: "All types of artwork.",
+    body: "All types of artwork. This can be paintings, drawings, digital art, collages, 3d arts, photography; if you call it art, we also call it art.",
     sampleId: "w3",
+  },
+  {
+    title: "Cover Art",
+    body: "This is a subcategory of visual art, but art work aligning with our theme of Seasons can be entered in the cover art competition with the chance for your work to become Threshold's cover.",
   },
   {
     title: "Music",
@@ -49,10 +53,6 @@ const GUIDELINES = [
     body: "We review pieces at our weekly meetings once the submissions start flowing in. Feel free to pull up!",
   },
   {
-    title: "Deadline!!",
-    body: "All pieces are due November 30th!! (Don't be late, you'll make us sad)"
-  },
-  {
     title: "Timeline",
     body: "We'll get back to you sometime around January (hopefully)."
   },
@@ -69,11 +69,20 @@ export default function Submit() {
 
       <hr className="rule-double" />
 
+      {/* The deadline, up top so nobody misses it. */}
+      <section className="callout callout--center">
+        <div>
+          <span className="kicker">Deadline</span>
+          <h2>All pieces are due November 30th!!</h2>
+          <p>Don't be late, you'll make us sad.</p>
+        </div>
+      </section>
+
       <div className="section-head">
         <h2>What to Submit</h2>
-        <span>Four ways in</span>
+        <span>Six ways in</span>
       </div>
-      <section className="grid-auto">
+      <section className="genre-grid">
         {GENRES.map((genre) => {
           const sample = genre.sampleId ? getWork(genre.sampleId) : undefined;
           return (
