@@ -3,8 +3,7 @@ const FACEBOOK_URL =
   "https://www.facebook.com/p/Threshold-Literary-and-Arts-Magazine-100049047613023/";
 
 const CALENDAR_SRC =
-  "https://calendar.google.com/calendar/embed?src=41f09267de31f79d455a997609212aacde8c7a09cb9b3bdb2d1434a04769f0fc%40group.calendar.google.com&ctz=America%2FNew_York";
-
+  "https://calendar.google.com/calendar/u/0?cid=Y19mNDEwNzlmZmIxMTRiYmVlYTE3ZmRiOGJkOGMzZTc5OTZmOGM5MDQwOGE0MzIwZTk3NzM3NWMxYzFiODk3ODVmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20";
 /**
  * Recent Instagram posts to feature. Paste the link to any post
  * (e.g. "https://www.instagram.com/p/ABC123xyz/") and it appears
